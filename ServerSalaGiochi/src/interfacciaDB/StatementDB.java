@@ -9,7 +9,7 @@ public class StatementDB {
 			"(user, psw , punti) " +
 			"VALUES ( ?, ?, 100, )";
 	
-	// recupero utente dal database
+	// recupero TUTTI I DATI di un utente dal database
 	static String takeClient = "SELECT * FROM clienti WHERE user = ? AND psw = ?";
 	
 	// giocatore che fa una partita alla slot
@@ -32,4 +32,24 @@ public class StatementDB {
 			"punti = ?, " +
 			"rb_vinta = ?, " +
 			"WHERE user = ? ";
+	
+	// giocatore che gioca a tombola i punti (ambo terno ecc) verranno sommati
+	//e a fine partita ci sarà l'update
+	static String partitaTomb = "UPDATE clienti SET " +
+			"punti = ?, " +
+			"tomb_giocata = ?, " +
+			"WHERE user = ?";
+	
+	/* giocatore che vince qualcosa a tombola (ambo terno ecc) verranno sommati
+	   e a fine partita ci sarà l'update
+	   se il giocatore ha + punti rispetto agli altri a fine partita, 
+	   ha vinto la partita */
+	static String vincitaTomb = "UPDATE clienti SET " +
+			"punti = ?, " +
+			"tomb_vinta = ?, " +
+			"WHERE user = ? ";
+	
+	// classifica punteggi
+	static String classifica ="SELECT user, punti FROM clienti" +
+			"ORDER BY punti DESCR ";
 }
