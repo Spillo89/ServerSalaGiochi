@@ -7,7 +7,7 @@ public class SimpleServer {
  //Porta del socket 
 	private static final int port = 4445; 
  
-	public static void main(String[] args) throws IOException { 
+	public static void connettiti() throws IOException { 
 //Dichiaro le variabili per il ServerSocket e il Socket 
 		ServerSocket serverSocket = null; 
 		Socket clientSocket = null; 

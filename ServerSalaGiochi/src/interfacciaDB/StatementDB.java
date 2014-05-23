@@ -45,4 +45,6 @@ public class StatementDB {
 	// classifica punteggi
 	static String classifica ="SELECT utente, punti FROM clienti" +
 			"ORDER BY punti DESCR ";
+	
+	
 }

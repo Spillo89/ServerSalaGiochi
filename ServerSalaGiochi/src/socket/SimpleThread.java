@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import serverdecoder.ServerDecoder;
+
 public class SimpleThread extends Thread {
 
 	public SimpleThread(Socket clientSocket) {
@@ -14,6 +16,7 @@ public class SimpleThread extends Thread {
 
 		PrintWriter writer = null; 
 		BufferedReader reader = null;
+		String[] NomePsw=null;
 		try {
 			//Inizializzo la scrittura sul socket 
 			writer = new PrintWriter(clientSocket.getOutputStream(), true); 
@@ -29,7 +32,10 @@ public class SimpleThread extends Thread {
 					try {clientSocket.close(); } catch (IOException e) {e.printStackTrace();} 
 				} 
 			}
-			stringa = "Ciao "+stringa; 
+			NomePsw = ServerDecoder.dividi(stringa);
+			if(NomePsw[2].equalsIgnoreCase("l")){
+				
+			}
 			//Scrivo una stringa sul socket 
 			writer.write(stringa); 
 			writer.flush(); 
