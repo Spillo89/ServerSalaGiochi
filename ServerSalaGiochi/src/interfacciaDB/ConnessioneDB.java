@@ -10,14 +10,14 @@ public class ConnessioneDB {
 	private static Connection conn = null;
 	private static ConnessioneDB  dbc = null;
 	private String DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
-	private String URL = "jdbc:derby:databasedir", USER = "user", PASS = "pass" ;
+	private String URL = "jdbc:derby:salagiochi";
 
 	private ConnessioneDB (){
 
 		try{
 			Class.forName(DRIVER).newInstance();
 			System.out.println("connessione..");
-			conn = DriverManager.getConnection(URL,USER,PASS);
+			conn = DriverManager.getConnection(URL);
 			System.out.println("connessione stabilita");
 		}catch(Exception e){
 			System.err.println(e.getMessage());

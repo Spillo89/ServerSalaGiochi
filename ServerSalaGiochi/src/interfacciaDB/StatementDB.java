@@ -6,39 +6,32 @@ public class StatementDB {
 	
 	// inserire utente nel database
 	static String instertClient = "INSERT INTO clienti " +
-			"(user, psw , punti) " +
-			"VALUES ( ?, ?, 100, )";
+			"(utente, psw , punti) " +
+			"VALUES ( ?, ?, 100 )";
 	
 	// recupero TUTTI I DATI di un utente dal database
-	static String takeClient = "SELECT * FROM clienti WHERE user = ? AND psw = ?";
+	static String takeClient = "SELECT * FROM clienti WHERE utente = ? AND psw = ?";
 	
-	// giocatore che fa una partita alla slot
-	
-	static String partitaSlot = "UPDATE clienti SET " +
-			"punti = ?, " +
-			"slot_giocata = ?, " +
-			"WHERE user = ? ";
-	
-	
+
 	// giocatore che fa una partita a rubamazzo
 	
 	static String partitaRb = "UPDATE clienti SET " +
 			"punti = ?, " +
 			"rb_giocata = ?, " +
-			"WHERE user = ? ";
+			"WHERE utente = ? ";
 	
 	// giocatore che vince una partita a rubamazzo
 	static String vincitaRb = "UPDATE clienti SET " +
 			"punti = ?, " +
 			"rb_vinta = ?, " +
-			"WHERE user = ? ";
+			"WHERE utente = ? ";
 	
 	// giocatore che gioca a tombola i punti (ambo terno ecc) verranno sommati
 	//e a fine partita ci sarà l'update
 	static String partitaTomb = "UPDATE clienti SET " +
 			"punti = ?, " +
 			"tomb_giocata = ?, " +
-			"WHERE user = ?";
+			"WHERE utente = ?";
 	
 	/* giocatore che vince qualcosa a tombola (ambo terno ecc) verranno sommati
 	   e a fine partita ci sarà l'update
@@ -47,9 +40,9 @@ public class StatementDB {
 	static String vincitaTomb = "UPDATE clienti SET " +
 			"punti = ?, " +
 			"tomb_vinta = ?, " +
-			"WHERE user = ? ";
+			"WHERE utente = ? ";
 	
 	// classifica punteggi
-	static String classifica ="SELECT user, punti FROM clienti" +
+	static String classifica ="SELECT utente, punti FROM clienti" +
 			"ORDER BY punti DESCR ";
 }
