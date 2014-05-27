@@ -2,18 +2,33 @@ package serverdecoder;
 
 import java.util.StringTokenizer;
 
+import utente.Registrazione;
+import utente.Utente;
+
 public class ServerDecoder {
-	public static String[] dividi(String stringainiziale){
+	public static void dividi(String stringainiziale){
 		int i=0;
-		String[] stringhe = null;
 
 		StringTokenizer st = new StringTokenizer(stringainiziale, "#");
+		switch (st.nextToken())
+		{
+			case "LOGIN":
+				Utente.setNomeUtente(st.nextToken());
+				Utente.setPsw(st.nextToken());
+			case "REGISTRAZIONE":
+				Registrazione.setAzione("Registra");
+				Registrazione.setNomeUtente(st.nextToken());
+				Registrazione.setPsw(st.nextToken());
+			case 
+				
+		};
+		
+		
+		
+
 	     while (st.hasMoreTokens()) {
-	    	 stringhe[i]=st.nextToken();
-	    	 i++;
-	     }
+	    	st.nextToken();
+	    	}
 
-
-		return stringhe;
 	}
 }
