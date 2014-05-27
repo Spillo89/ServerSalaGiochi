@@ -1,27 +1,17 @@
-package utente;
+package costruttore;
 
-public class Registrazione{
+public class Utente {
 
-	private static String Azione=null;
 	private static String NomeUtente=null;
 	private static String Psw=null;
 	
 	
 	
-	public void Registra(String azione, String nomeutente, String psw) {
-		this.Azione=azione;
+	public Utente(String nomeutente, String psw) {
+		super();
 		this.NomeUtente=nomeutente;
 		this.Psw=psw;
 	}
-	
-	public static void setAzione(String azione){
-		Azione=azione;
-	}
-	
-	public String getAzione(){
-		return Azione;
-	}
-	
 	
 	public static void setNomeUtente(String nomeutente){
 		NomeUtente=nomeutente;
