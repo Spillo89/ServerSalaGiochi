@@ -1,4 +1,4 @@
-package encoder;
+package serverencoder;
 
 public class ServerEncoder {
 	//produce le stringhe da inviare tramite il socket
@@ -11,7 +11,7 @@ public class ServerEncoder {
 			if(stringhe.length==i+1){
 				stringafinale=stringhe[i]; // se la stringa è l'ultima non inserisce il token
 			}else{
-				stringafinale=stringhe[i]+"£"; // £ token che divide le varie stringhe
+				stringafinale=stringhe[i]+"#"; // £ token che divide le varie stringhe
 		
 			}
 		}

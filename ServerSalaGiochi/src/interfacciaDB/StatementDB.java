@@ -12,6 +12,9 @@ public class StatementDB {
 	// recupero TUTTI I DATI di un utente dal database
 	static String takeClient = "SELECT * FROM clienti WHERE utente = ? AND psw = ?";
 	
+	//recupero nome utente e psw
+	
+	static String CercaUtente = "SELECT utente AND psw FROM clienti WHERE utente = ?";
 
 	// giocatore che fa una partita a rubamazzo
 	

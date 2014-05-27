@@ -7,7 +7,7 @@ public class ServerDecoder {
 		int i=0;
 		String[] stringhe = null;
 
-		StringTokenizer st = new StringTokenizer(stringainiziale, "£");
+		StringTokenizer st = new StringTokenizer(stringainiziale, "#");
 	     while (st.hasMoreTokens()) {
 	    	 stringhe[i]=st.nextToken();
 	    	 i++;
