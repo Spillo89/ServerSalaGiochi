@@ -2,6 +2,8 @@ package tombola;
 
 import java.util.Random;
 
+import costruttore.NumeroEstratto;
+
 public class Tabellone {
 	
 	
@@ -37,6 +39,7 @@ public class Tabellone {
 		}while(grigliaTot[decina][unita-1] == 0);
 		grigliaTot[decina][unita-1] = 0;
 		num_estratti = 0;
+		NumeroEstratto.setNumero(estratto);
 		return estratto;
 	}
 	
@@ -55,6 +58,7 @@ public class Tabellone {
 			estratto 	= grigliaTot[decina][unita];
 		}while(grigliaTot[decina][unita] == 0);
 		grigliaTot[decina][unita] = 0;
+		NumeroEstratto.setNumero(estratto);
 		return estratto;
 	}
 }
