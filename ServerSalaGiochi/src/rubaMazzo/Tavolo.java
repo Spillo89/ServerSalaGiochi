@@ -33,9 +33,9 @@ public class Tavolo {
 		return null;
 	}
 	
-	public ArrayList<Carta> prendiCarte(Carta c, ArrayList<Carta> carteTavolo){
-		if(c.cartaUguale(carteTavolo))
-			return carteTavolo;
+	public ArrayList<Carta> prendiCarte(Carta c,Tavolo carteTavolo){
+		if(c.cartaUguale(carteTavolo.carte))
+			return carteTavolo.carte;
 		return null;
 	}
 }
