@@ -9,7 +9,7 @@ public class Mazzo {
 	private LinkedList<Carta> carte=null;
 	// creo il mazzo
 	Mazzo(){
-		for(int i=0; i<40; i++){
+		for(int i=1; i<11; i++){
 			carte.add(new Carta(i,Carta.BASTONI));
 			carte.add(new Carta(i,Carta.SPADE));
 			carte.add(new Carta(i,Carta.DENARI));
