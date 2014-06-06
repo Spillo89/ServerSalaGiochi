@@ -30,6 +30,6 @@ public class Carta {
 	 }
 	
 	public String toString(){
-		return ""+seme+val;
+		return ""+seme+"#"+val;
 	}
 }
