@@ -12,18 +12,20 @@ public class Tabella {
 	/**
 	 * @param args
 	 */
-	public String tabella[][];
+	public Casella tabella[][];
 	public ArrayList<SchedaTomb> schede= new ArrayList<SchedaTomb>();
 	Random rand = new Random();
 	public SchedaTomb Tabella (Tabellone tab){
 		SchedaTomb scheda=null;
 		tab.reset();
 		int estratto = 0;
-		tabella = new String [3][9];
+		String schedatombola[][]=null;
+		tabella = new Casella [3][9];
 		// riempio la tabella con tutti i numeri, ordinati per decine
 		for (int decina = 0; decina<9; decina ++){
 			for(int j=0; j<3; j++){
-				tabella[j][decina] = String.valueOf(tab.estraiColonna(decina));
+				tabella[j][decina].setValore(tab.estraiColonna(decina));
+				tabella[j][estratto].setEstratto(false);
 				System.out.println("numero riga :"+j+" colonna: "+decina+": --->"+tabella[j][decina]);
 			}
 		}
@@ -33,16 +35,34 @@ public class Tabella {
 				for(int j=0; j<4; j++){
 					do{
 						estratto = rand.nextInt(9);
-					}while(tabella[i][estratto].equalsIgnoreCase("0"));
-					tabella[i][estratto] = "0";
+					}while(tabella[i][estratto].getValore()==0);
+					tabella[i][estratto].setValore(0);
+					tabella[i][estratto].setEstratto(true);
 				}
 			tab.reset();	
 			}
-			scheda.setValoriScheda(tabella);
+			for(int i=0; i<3;i++){
+				for(int j=0; j<9; j++){
+					schedatombola[i][j]=tabella[i][j].toString();
+				}
+			}
+			scheda.setValoriScheda(schedatombola);
 			return scheda;
 	}
 	
 	public String prendiNumero (int riga, int colonna){
-		return tabella[riga][colonna];
+		return "" + tabella[riga][colonna].getValore();
+	}
+	
+	// controllo se è presente il numero dentro la tabella
+	public void controllaNumero(int num){
+		
+		for(int i=0; i<3;i++){
+			for(int j=0; j<9; j++){
+				if(tabella[i][j].getValore()== num){
+					tabella[i][j].setEstratto(true);
+				}
+			}
+		}
 	}
 }
