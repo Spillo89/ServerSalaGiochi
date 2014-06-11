@@ -13,6 +13,7 @@ public class Casella {
 	public int getValore() {
 		return valore;
 	}
+	
 
 	public void setValore(int valore) {
 		this.valore = valore;

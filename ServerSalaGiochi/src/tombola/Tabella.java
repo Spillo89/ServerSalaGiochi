@@ -65,4 +65,34 @@ public class Tabella {
 			}
 		}
 	}
+	
+	public String vincita(){
+		Integer contanumero = 0, tombola=0;
+		
+		String vittoria = null;
+		for(int i=0; i<3;i++){
+			for(int j=0; j<9; j++){
+				if(tabella[i][j].isEstratto()==true){
+					contanumero++;
+				}
+				switch(contanumero){
+					
+				case 2: vittoria = "ambo";
+				
+				case 3: vittoria = "terno";
+		
+				case 4: vittoria = "quaterna";
+		
+				case 5: vittoria = "cinquina";
+
+				default: vittoria = null;
+				}
+			}
+			tombola	= tombola+contanumero;
+			contanumero = 0;
+		}
+		if(tombola== 15)
+			vittoria = "tombola";
+		return vittoria;
+	}
 }
