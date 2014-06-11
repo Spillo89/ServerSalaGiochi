@@ -77,13 +77,13 @@ public class Tabella {
 				}
 				switch(contanumero){
 					
-				case 2: vittoria = "ambo";
+				case 2: vittoria = "Ambo";
 				
-				case 3: vittoria = "terno";
+				case 3: vittoria = "Terno";
 		
-				case 4: vittoria = "quaterna";
+				case 4: vittoria = "Quaterna";
 		
-				case 5: vittoria = "cinquina";
+				case 5: vittoria = "Cinquina";
 
 				default: vittoria = null;
 				}
@@ -92,7 +92,7 @@ public class Tabella {
 			contanumero = 0;
 		}
 		if(tombola== 15)
-			vittoria = "tombola";
+			vittoria = "Tombola";
 		return vittoria;
 	}
 }
