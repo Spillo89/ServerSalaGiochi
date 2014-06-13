@@ -13,9 +13,13 @@ public class Tabella {
 	 * @param args
 	 */
 	public Casella tabella[][];
-	public ArrayList<SchedaTomb> schede= new ArrayList<SchedaTomb>();
+	public static ArrayList<SchedaTomb> schede= new ArrayList<SchedaTomb>();
 	Random rand = new Random();
+	
+	
 	public SchedaTomb Tabella (Tabellone tab){
+		
+		
 		SchedaTomb scheda=null;
 		tab.reset();
 		int estratto = 0;
@@ -47,6 +51,7 @@ public class Tabella {
 				}
 			}
 			scheda.setValoriScheda(schedatombola);
+			schede.add(scheda);
 			return scheda;
 	}
 	

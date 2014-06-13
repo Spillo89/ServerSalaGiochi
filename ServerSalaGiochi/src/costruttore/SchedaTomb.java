@@ -22,6 +22,11 @@ public class SchedaTomb {
 	public void setValoriScheda(String[][] valoriScheda) {
 		ValoriScheda = valoriScheda;
 	}
+	
+	public static String getValoreSchedaUnico(Integer i, Integer j){
+		
+		return ValoriScheda[i][j];
+	}
 
 
 }
