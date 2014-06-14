@@ -8,28 +8,44 @@ public class Carta {
 	static final char SPADE		= 'S';
 	static final char DENARI	= 'D';
 	
-	int val;
-	char seme;
+	int Val;
+	char Seme;
 	
 	public Carta (int v, char s){
-		val = v;
-		seme = s;
+		Val = v;
+		Seme = s;
 	}
 	
+	public int getVal() {
+		return Val;
+	}
+
+	public void setVal(int val) {
+		Val = val;
+	}
+
+	public char getSeme() {
+		return Seme;
+	}
+
+	public void setSeme(char seme) {
+		Seme = seme;
+	}
+
 	public boolean cartaUguale (Carta c){
-		return c.val == val;
+		return c.Val == Val;
 	}
 	
 	 public boolean cartaUguale (ArrayList<Carta> listaCarte){
 		 int somma = 0;
 		 for(Carta c: listaCarte){
-			 somma +=c.val;
+			 somma +=c.Val;
 		 }
-		 return somma==val;
+		 return somma==Val;
 		 
 	 }
 	
 	public String toString(){
-		return ""+seme+"#"+val;
+		return ""+Seme+"#"+Val;
 	}
 }

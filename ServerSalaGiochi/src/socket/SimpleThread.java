@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import serverdecoder.ServerDecoder;
-
 public class SimpleThread extends Thread {
 
 	public SimpleThread(Socket clientSocket) {

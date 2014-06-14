@@ -12,7 +12,7 @@ public class ConnessioneDB {
 	private String DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
 	private String URL = "jdbc:derby:salagiochi";
 
-	private ConnessioneDB (){
+	public ConnessioneDB (){
 
 		try{
 			Class.forName(DRIVER).newInstance();
