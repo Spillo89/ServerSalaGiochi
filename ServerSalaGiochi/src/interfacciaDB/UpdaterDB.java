@@ -3,27 +3,31 @@ package interfacciaDB;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Date;
 
-import javax.swing.JOptionPane;
+import costruttore.Registrazione;
+import costruttore.Utente;
+import costruttore.UtenteLogin;
 
 public class UpdaterDB {
 	// tutte le query di update del database
 	
 	private static ConnessioneDB  dbc = null;
 	
-	public static String cercaUtente(String[] Nome) throws SQLException{
+	public static Boolean cercaUtente() throws SQLException{
 		
-		String esiste=null;
+		Boolean esiste=false;
 		
 		dbc = ConnessioneDB.getIstance();
 		PreparedStatement ps = dbc.getPStatement(StatementDB.CercaUtente);
-		ps.setString(1, Nome[1]);
+		ps.setString(1, Registrazione.getNomeUtente());
 		try {
 			System.out.println("eseguo la query di ricerca");
 			ResultSet rs = ps.executeQuery(StatementDB.CercaUtente);
 			while(rs.next()){
-				esiste = rs.getString("utente");
+				if( rs.getString("utente")!=null){
+					esiste=true;
+				};
 			}
 			
 			
@@ -35,23 +39,28 @@ public class UpdaterDB {
 		return esiste;
 	}
 	
-	public static String[] cercaUtentePsw(String[] Nomepsw) throws SQLException{
+	@SuppressWarnings("null")
+	public static UtenteLogin cercaUtentePsw() throws SQLException{
 		
-		String[] dati=null;
+		 UtenteLogin utentelogin=null;
 		
 		dbc = ConnessioneDB.getIstance();
 		PreparedStatement ps = dbc.getPStatement(StatementDB.takeClient);
-		ps.setString(1, Nomepsw[1]);
-		ps.setString(2, Nomepsw[2]);
+		ps.setString(1, Utente.getNomeUtente());
+		ps.setString(2, Utente.getPsw());
 		try {
 			System.out.println("eseguo la query ceh mi restituirà tutti i dati");
 			ResultSet rs = ps.executeQuery(StatementDB.takeClient);
 			if(rs!=null){
 				while(rs.next()){
-					dati[0]="OK";
-					dati[1] = rs.getString("utente");
-					dati[2] = rs.getString("psw");
-					dati[3] = String(rs.getInt("punti"));
+					if(rs.getString("utente")!=null && rs.getString("psw")!=null){
+						utentelogin.setNome(rs.getString("nome"));
+						utentelogin.setCognome(rs.getString("cognome"));
+						utentelogin.setCrediti(Integer.parseInt(rs.getString("punti")));
+						utentelogin.setPosizione(Integer.parseInt(rs.getString("posizione")));
+						utentelogin.setUltimoLogin(rs.getString("ultimoaccesso"));
+						
+					}
 					
 				}
 			}
@@ -61,11 +70,6 @@ public class UpdaterDB {
 			System.out.println("errore");
 			e.printStackTrace();
 		}
-		return null;
-	}
-
-	private static String String(int int1) {
-		// TODO Auto-generated method stub
-		return null;
+		return utentelogin;
 	}
 }

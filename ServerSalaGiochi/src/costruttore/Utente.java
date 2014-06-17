@@ -17,7 +17,7 @@ public class Utente {
 		NomeUtente=nomeutente;
 	}
 	
-	public String getNomeUtente(){
+	public static String getNomeUtente(){
 		return NomeUtente;
 	}
 	
@@ -25,7 +25,7 @@ public class Utente {
 		Psw=psw;
 	}
 	
-	public String getPsw(){
+	public static String getPsw(){
 		return Psw;
 	}
 

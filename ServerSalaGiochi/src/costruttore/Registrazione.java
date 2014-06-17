@@ -51,7 +51,7 @@ public class Registrazione{
 		NomeUtente=nomeutente;
 	}
 	
-	public String getNomeUtente(){
+	public static String getNomeUtente(){
 		return NomeUtente;
 	}
 	
