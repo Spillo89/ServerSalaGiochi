@@ -1,43 +1,42 @@
 package serverencoder;
 
-import rubaMazzo.Carta;
-import tombola.Tabella;
+import rubaMazzo.AggiornamentoCarteSingoloGiocatore;
 
 public class ServerEncoderRubamazzo {
-	public static String recapcarte(Carta[] carteinmano, Carta[] carteinbanco, Carta cartaincima1, Carta cartaincima2, Carta cartaincima3, Carta cartaincima4, Integer numerodicarte1, Integer numerodicarte2, Integer numerodicarte3, Integer numerodicarte4){
+	public static String recapcarte(AggiornamentoCarteSingoloGiocatore aggiornamento){
 
 		String stringafinale=null;
 
 		stringafinale="OK#";
-		for(Integer i=0;i<carteinmano.length;i++){
-			stringafinale=stringafinale+carteinmano[i].getVal()+"#";
-			stringafinale=stringafinale+carteinmano[i].getSeme()+"#";
+		for(Integer i=0;i<aggiornamento.Carteinmano.size();i++){
+			stringafinale=stringafinale+aggiornamento.Carteinmano.get(i).getVal()+"#";
+			stringafinale=stringafinale+aggiornamento.Carteinmano.get(i).getSeme()+"#";
 		}
 		stringafinale=stringafinale+"CARTEINMANO#";
-		for(Integer i=0;i<carteinbanco.length;i++){
-			stringafinale=stringafinale+carteinbanco[i].getVal()+"#";
-			stringafinale=stringafinale+carteinbanco[i].getSeme()+"#";
+		for(Integer i=0;i<aggiornamento.Carteinbanco.size();i++){
+			stringafinale=stringafinale+aggiornamento.Carteinbanco.get(i).getVal()+"#";
+			stringafinale=stringafinale+aggiornamento.Carteinbanco.get(i).getSeme()+"#";
 		}
 		stringafinale=stringafinale+"CARTEINBANCO#";
 		
 
-		stringafinale=stringafinale+cartaincima1.getVal()+"#";
-		stringafinale=stringafinale+cartaincima1.getSeme()+"#";
-		stringafinale=stringafinale+numerodicarte1+"#";
+		stringafinale=stringafinale+aggiornamento.Cartaincima1.getVal()+"#";
+		stringafinale=stringafinale+aggiornamento.Cartaincima1.getSeme()+"#";
+		stringafinale=stringafinale+aggiornamento.Numerocarte1+"#";
 		
-		stringafinale=stringafinale+cartaincima2.getVal()+"#";
-		stringafinale=stringafinale+cartaincima2.getSeme()+"#";
-		stringafinale=stringafinale+numerodicarte2;
+		stringafinale=stringafinale+aggiornamento.Cartaincima2.getVal()+"#";
+		stringafinale=stringafinale+aggiornamento.Cartaincima2.getSeme()+"#";
+		stringafinale=stringafinale+aggiornamento.Numerocarte2+"#";
 		
-		if(cartaincima3!=null){
-			stringafinale="#"+stringafinale+cartaincima3.getVal()+"#";
-			stringafinale=stringafinale+cartaincima3.getSeme()+"#";
-			stringafinale=stringafinale+numerodicarte3;
+		if(aggiornamento.Cartaincima3.getClass()!=null){
+			stringafinale=stringafinale+aggiornamento.Cartaincima3.getVal()+"#";
+			stringafinale=stringafinale+aggiornamento.Cartaincima3.getSeme()+"#";
+			stringafinale=stringafinale+aggiornamento.Numerocarte3+"#";
 		}
-		if(cartaincima4!=null){
-			stringafinale="#"+stringafinale+cartaincima4.getVal()+"#";
-			stringafinale=stringafinale+cartaincima4.getSeme()+"#";
-			stringafinale=stringafinale+numerodicarte4;
+		if(aggiornamento.Cartaincima3.getClass()!=null){
+			stringafinale=stringafinale+aggiornamento.Cartaincima4.getVal()+"#";
+			stringafinale=stringafinale+aggiornamento.Cartaincima4.getSeme()+"#";
+			stringafinale=stringafinale+aggiornamento.Numerocarte4+"#";
 		}
 		
 		stringafinale=stringafinale+"\n";

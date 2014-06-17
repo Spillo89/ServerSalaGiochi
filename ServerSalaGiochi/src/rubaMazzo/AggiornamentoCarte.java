@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class AggiornamentoCarte {
 
-	 ArrayList<Carta> Carteinmano1=new ArrayList<Carta>();
+	 public ArrayList<Carta> Carteinmano1=new ArrayList<Carta>();
 	 ArrayList<Carta> Carteinmano2=new ArrayList<Carta>();
 	 ArrayList<Carta> Carteinmano3=new ArrayList<Carta>();
 	 ArrayList<Carta> Carteinmano4=new ArrayList<Carta>();
