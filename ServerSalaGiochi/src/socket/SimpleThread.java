@@ -6,9 +6,12 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import rubaMazzo.PartitaRubamazzo;
+import tombola.PartitaTombola;
+
 public class SimpleThread extends Thread {
 
-	public SimpleThread(Socket clientSocket) {
+	public SimpleThread(Socket clientSocket, PartitaTombola partitatombola, PartitaRubamazzo partitarubamazzo) {
 		// TODO Auto-generated constructor stub
 		//Contiene il codice che eseguirà il thread
 
