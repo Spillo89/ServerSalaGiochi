@@ -13,10 +13,12 @@ public class ServerEncoderRubamazzo {
 			stringafinale=stringafinale+carteinmano[i].getVal()+"#";
 			stringafinale=stringafinale+carteinmano[i].getSeme()+"#";
 		}
+		stringafinale=stringafinale+"CARTEINMANO#";
 		for(Integer i=0;i<carteinbanco.length;i++){
 			stringafinale=stringafinale+carteinbanco[i].getVal()+"#";
 			stringafinale=stringafinale+carteinbanco[i].getSeme()+"#";
 		}
+		stringafinale=stringafinale+"CARTEINBANCO#";
 		
 
 		stringafinale=stringafinale+cartaincima1.getVal()+"#";

@@ -8,15 +8,15 @@ public class Carta {
 	static final char SPADE		= 'S';
 	static final char DENARI	= 'D';
 	
-	int Val;
+	Integer Val;
 	char Seme;
 	
-	public Carta (int v, char s){
+	public Carta (Integer v, char s){
 		Val = v;
 		Seme = s;
 	}
 	
-	public int getVal() {
+	public Integer getVal() {
 		return Val;
 	}
 
@@ -48,4 +48,7 @@ public class Carta {
 	public String toString(){
 		return ""+Seme+"#"+Val;
 	}
+	
+	
+	
 }
