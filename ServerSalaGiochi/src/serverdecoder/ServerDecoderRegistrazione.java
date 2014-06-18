@@ -5,15 +5,19 @@ import java.util.StringTokenizer;
 import costruttore.Registrazione;
 
 public class ServerDecoderRegistrazione {
-	public static void decoderregistrazione(String stringainiziale){
+	@SuppressWarnings("null")
+	public static Registrazione decoderregistrazione(String stringainiziale){
+		
+		Registrazione utente=null;
 
 		StringTokenizer st = new StringTokenizer(stringainiziale, "#");
 		if(st.nextToken().equalsIgnoreCase("REGISTRAZIONE")){
-			Registrazione.setNome(st.nextToken());
-			Registrazione.setCognome(st.nextToken());
-			Registrazione.setNomeUtente(st.nextToken());
-			Registrazione.setPsw(st.nextToken());
+			utente.setNome(st.nextToken());
+			utente.setCognome(st.nextToken());
+			utente.setNomeUtente(st.nextToken());
+			utente.setPsw(st.nextToken());
 		}
+		return utente;
 
 	}
 

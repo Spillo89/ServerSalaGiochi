@@ -5,7 +5,7 @@ import costruttore.SlotMachine;
 
 public class Slot {
 	
-	private Rulli r = null;
+	private static Rulli r = null;
 	private Jackpot j = null;
 	
 	
@@ -16,28 +16,33 @@ public class Slot {
 	
 	// prendo i valori della combinazione
 	
-	public void calcolaCombinazione(){
+	@SuppressWarnings("null")
+	public static SlotMachine calcolaCombinazione(){
+		
+		SlotMachine slotmachine=null;
+		
 		int[] combinazione = r.GeneraSlot();
-		String output = null;
-		SlotMachine.setValore1(String.valueOf(combinazione[0]));
-		SlotMachine.setValore2(String.valueOf(combinazione[1]));
-		SlotMachine.setValore3(String.valueOf(combinazione[2]));
+		
+		
+		slotmachine.setValore1(String.valueOf(combinazione[0]));
+		slotmachine.setValore2(String.valueOf(combinazione[1]));
+		slotmachine.setValore3(String.valueOf(combinazione[2]));
+		
+		return slotmachine;
 	}
 	
 	// prendo i risultati della vittoria/sconfitta
-	public void getPremio (){
-		int premio = 0;
-		
+	public static String getPremio (){
+		String vincita=null;
 		if(r.getPremio() == 100){
-			SlotMachine.setCreditiVinti(String.valueOf(100));
-			SlotMachine.setRisultato("jackpot");
+			vincita="JACKPOT";
 		} else if(r.getPremio()== 0){
-			SlotMachine.setCreditiVinti(String.valueOf(0));
-			SlotMachine.setRisultato("lose");
+			vincita="LOSE";
 			
 		} else if(r.getPremio() >0 && r.getPremio() <100){
-			SlotMachine.setCreditiVinti(String.valueOf(r.getPremio()));
-			SlotMachine.setRisultato("Win");
+			vincita="WIN";
 		}
+		return vincita;
 	}
+	
 }

@@ -2,30 +2,30 @@ package costruttore;
 
 public class Utente {
 
-	private static String NomeUtente=null;
-	private static String Psw=null;
-	
-	
-	
+	private String NomeUtente=null;
+	private String Psw=null;
+
+
+
 	public Utente(String nomeutente, String psw) {
 		super();
 		this.NomeUtente=nomeutente;
 		this.Psw=psw;
 	}
-	
-	public static void setNomeUtente(String nomeutente){
+
+	public  void setNomeUtente(String nomeutente){
 		NomeUtente=nomeutente;
 	}
-	
-	public static String getNomeUtente(){
+
+	public String getNomeUtente(){
 		return NomeUtente;
 	}
-	
-	public static void setPsw(String psw){
+
+	public void setPsw(String psw){
 		Psw=psw;
 	}
-	
-	public static String getPsw(){
+
+	public  String getPsw(){
 		return Psw;
 	}
 

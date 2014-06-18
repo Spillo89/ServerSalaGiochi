@@ -10,6 +10,9 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.util.StringTokenizer;
 
+import costruttore.Registrazione;
+import costruttore.SlotMachine;
+import costruttore.Utente;
 import costruttore.UtenteLogin;
 
 import rubaMazzo.PartitaRubamazzo;
@@ -17,6 +20,8 @@ import serverdecoder.ServerDecoderLogin;
 import serverdecoder.ServerDecoderRegistrazione;
 import serverencoder.ServerEncoderLogin;
 import serverencoder.ServerEncoderRegistrazione;
+import serverencoder.ServerEncoderSlot;
+import slotMachine.Slot;
 import tombola.PartitaTombola;
 
 public class SimpleThread extends Thread {
@@ -31,6 +36,10 @@ public class SimpleThread extends Thread {
 		BufferedReader reader = null;
 		String dainviare=null;
 		String stringa=null;
+		Registrazione utenteregistrazione=null;
+		Utente utente=null;
+		SlotMachine combinazioneslot=null;
+		UtenteLogin utentelogin=null;
 
 		try {
 			//Inizializzo la scrittura sul socket 
@@ -57,31 +66,35 @@ public class SimpleThread extends Thread {
 				switch(st.nextToken()){
 					case "LOGIN": 
 						ServerDecoderLogin.decoderlogin(stringa);
+						parolachiave="LOGIN";
 					case "REGISTRAZIONE": 
-						ServerDecoderRegistrazione.decoderregistrazione(stringa);				
+						utenteregistrazione=ServerDecoderRegistrazione.decoderregistrazione(stringa);
+						parolachiave="REGISTRAZIONE";
 				}
 				Boolean esiste=null;
 				switch(parolachiave){
 					case"REGISTRAZIONE":
-						esiste=UpdaterDB.cercaUtente();
+						esiste=UpdaterDB.cercaUtente(utenteregistrazione);
 						if(esiste==true){
 							parolachiave="REGISTRAZIONEKO";
 						}else{
-							parolachiave="REGISTRAZIONEOK";
+							UpdaterDB.aggiungiUtente(utenteregistrazione);
+							parolachiave="REGISTRAZIONEOK";				
 						}
 					case"LOGIN":
-						UtenteLogin utentelogin=UpdaterDB.cercaUtentePsw();
+						utentelogin=UpdaterDB.cercaUtentePsw(utente);
 						if(utentelogin!=null){
 							parolachiave="LOGINOK";
 						}else{
 							parolachiave="LOGINKO";
+							//aggiornare la data dell'ultimo login
 						}
 				}
 				//controllare in caso di login se l'utente esiste nel db(se si imposto parolachiave="LOGINOK" in caso contrario imposto parolachiave="LOGINKO"), controllare in caso di registrazione se il nome utente è già presente nel db e se sono presenti tuti i dati richiesti se no aggiungere tutto(in caso che sia tutto giusto parolachiave="REGISTRAZIONEOK" altrimenti parolachiave="REGISTRAZIONEKO")
 
 				switch(parolachiave){
 					case"LOGINOK": 
-						UtenteLogin utentelogin=null;
+
 						//salvo i dati che mi servono in utentelogin
 						dainviare=ServerEncoderLogin.login(utentelogin);
 						writer.write(dainviare);
@@ -92,9 +105,8 @@ public class SimpleThread extends Thread {
 						writer.write(dainviare);
 						writer.flush(); 
 					case"REGISTRAZIONEOK":
-						UtenteLogin utenteregistrazione=null;
 						//salvo i dari che mi servono in utetnelogin
-						dainviare=ServerEncoderRegistrazione.registrazione(utenteregistrazione);
+						dainviare=ServerEncoderRegistrazione.registrazione(utentelogin);
 						writer.write(dainviare);
 						writer.flush(); 
 					case"REGISTRAZIONEKO":
@@ -105,6 +117,35 @@ public class SimpleThread extends Thread {
 				
 			}while(parolachiave.equalsIgnoreCase("LOGINKO")||parolachiave.equalsIgnoreCase("REGISTRAZIONEKO"));
 
+			
+			
+			//comincio la scelta del gioco o della classifica da giocare o da visualizzare
+			
+			
+			
+
+			stringa = reader.readLine(); 
+			System.out.println("Ricevuta stringa: "+stringa);
+			
+			
+			StringTokenizer st = new StringTokenizer(stringa, "#");
+			switch(st.nextToken()){
+				case "SLOT":
+					combinazioneslot=Slot.calcolaCombinazione();
+					Integer creditivinti=null;
+					Integer credititotali=null;
+					String risultato=Slot.getPremio();
+					ServerEncoderSlot.slot(combinazioneslot, risultato, creditivinti, credititotali);
+				case "TOMBOLA":
+					
+				case "RUBAMAZZO":
+					
+				case "CLASSIFICAGLOBALE":
+					
+				case "CLASSIFICAGIORNALIERA":
+					
+			}
+			
 			
 			
 			

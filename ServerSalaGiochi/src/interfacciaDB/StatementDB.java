@@ -5,9 +5,9 @@ public class StatementDB {
 	// tutte le query del database
 	
 	// inserire utente nel database
-	static String instertClient = "INSERT INTO clienti " +
-			"(utente, psw , punti) " +
-			"VALUES ( ?, ?, 100 )";
+	static String insertClient = "INSERT INTO clienti " +
+			"(utente, psw , nome, cognome, punti) " +
+			"VALUES ( ?, ?, ?, ?,80 )";
 	
 	// recupero TUTTI I DATI di un utente dal database
 	static String takeClient = "SELECT * FROM clienti WHERE utente = ? AND psw = ?";

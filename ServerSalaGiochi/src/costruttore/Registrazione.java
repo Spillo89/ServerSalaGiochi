@@ -19,43 +19,43 @@ public class Registrazione{
 
 	
 	
-	public static String getNome() {
+	public String getNome() {
 		return Nome;
 	}
 
 
 
 
-	public static void setNome(String nome) {
+	public void setNome(String nome) {
 		Nome = nome;
 	}
 
 
 
 
-	public static String getCognome() {
+	public String getCognome() {
 		return Cognome;
 	}
 
 
 
 
-	public static void setCognome(String cognome) {
+	public void setCognome(String cognome) {
 		Cognome = cognome;
 	}
 
 
 
 
-	public static void setNomeUtente(String nomeutente){
+	public void setNomeUtente(String nomeutente){
 		NomeUtente=nomeutente;
 	}
 	
-	public static String getNomeUtente(){
+	public String getNomeUtente(){
 		return NomeUtente;
 	}
 	
-	public static void setPsw(String psw){
+	public void setPsw(String psw){
 		Psw=psw;
 	}
 	

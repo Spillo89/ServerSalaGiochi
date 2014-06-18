@@ -4,13 +4,15 @@ import java.util.StringTokenizer;
 
 import costruttore.Utente;
 public class ServerDecoderLogin {
-	public static void decoderlogin(String stringainiziale){
-		
+	public static Utente decoderlogin(String stringainiziale){
+		Utente utente=null;
 		StringTokenizer st = new StringTokenizer(stringainiziale, "#");
 		if(st.nextToken().equalsIgnoreCase("LOGIN")){
-			Utente.setNomeUtente(st.nextToken());
-			Utente.setPsw(st.nextToken());
+			utente.setNomeUtente(st.nextToken());
+			utente.setPsw(st.nextToken());
 		}
+		
+		return utente;
 
 	}
 }
