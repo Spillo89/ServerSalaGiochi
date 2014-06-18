@@ -2,6 +2,8 @@ package tombola;
 
 import java.util.ArrayList;
 
+import costruttore.Utente;
+
 public class PartitaTombola {
 
 	ArrayList<PartitaTombola> Partite = new ArrayList<PartitaTombola>();
@@ -9,7 +11,10 @@ public class PartitaTombola {
 	ArrayList<String> VinciteChiamate = new ArrayList<String>();
 	
 	public PartitaTombola(){
+	
+		ArrayList<Utente> utenti=new ArrayList<Utente>();
 		
-	}
+	}	
+	
 	
 }

@@ -7,21 +7,21 @@ import costruttore.NumeroEstratto;
 public class Tabellone {
 	
 	
-	private Casella grigliaTot[][];				 // griglia del tabellone
-	Random estraggo = new Random(); 			 //estrattore del numero random
-	int num_estratti = 0;
+	private static Casella grigliaTot[][];				 // griglia del tabellone
+	static Random estraggo = new Random(); 			 //estrattore del numero random
+	static int num_estratti = 0;
 	
 	public Tabellone(){							 // costruttore
 		crea();
 		num_estratti = 0;
 	}
 	
-	public void reset(){  						// reset del tabellone
+	public static void reset(){  						// reset del tabellone
 		crea();
 		num_estratti = 0;
 	}
 	
-	private void crea(){						// metodo per riempire il tabellone
+	private static void crea(){						// metodo per riempire il tabellone
 		for(int riga=0; riga<9; riga++)
 			for(int colonna=0; colonna<10; colonna++){
 				grigliaTot[riga][colonna]= new Casella(riga*10 + colonna + 1, false);
@@ -52,7 +52,7 @@ public class Tabellone {
 			return false;
 	}
 	
-	public int estraiColonna(int decina){		// metodo che riempie le colonne della casella
+	public static int estraiColonna(int decina){		// metodo che riempie le colonne della casella
 		int estratto = 0;
 		int unita	 = 0;
 		do{

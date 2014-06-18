@@ -106,7 +106,7 @@ public class UpdaterDB {
 
 	//aggiorna i punti di un utente
 	
-	public static void aggiornapunti(Utente utente) throws SQLException{
+	public static void aggiornapunti(Utente utente, Integer puntidaaggiungere, Integer puntispesi) throws SQLException{
 
 		ResultSet tupla=cercaUtente(utente);
 		

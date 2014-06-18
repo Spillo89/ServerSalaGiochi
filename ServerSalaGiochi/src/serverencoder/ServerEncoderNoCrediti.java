@@ -1,8 +1,8 @@
 package serverencoder;
 
-public class ServerEncodeNoCrediti {
+public class ServerEncoderNoCrediti {
 	
-	public String nocrediti(Integer crediti){
+	public static String nocrediti(Integer crediti){
 		
 		String stringafinale=null;
 		

@@ -12,23 +12,27 @@ public class Tabella {
 	/**
 	 * @param args
 	 */
-	public Casella tabella[][];
+	public static Casella tabella[][];
 	public static ArrayList<SchedaTomb> schede= new ArrayList<SchedaTomb>();
-	Random rand = new Random();
+	static Random rand = new Random();
 	
 	
-	public SchedaTomb Tabella (Tabellone tab){
+	@SuppressWarnings("null")
+	public static void tabella (){
 		
 		
 		SchedaTomb scheda=null;
-		tab.reset();
+		Tabellone.reset();
 		int estratto = 0;
 		String schedatombola[][]=null;
+		
+		
+		
 		tabella = new Casella [3][9];
 		// riempio la tabella con tutti i numeri, ordinati per decine
 		for (int decina = 0; decina<9; decina ++){
 			for(int j=0; j<3; j++){
-				tabella[j][decina].setValore(tab.estraiColonna(decina));
+				tabella[j][decina].setValore(Tabellone.estraiColonna(decina));
 				tabella[j][estratto].setEstratto(false);
 				System.out.println("numero riga :"+j+" colonna: "+decina+": --->"+tabella[j][decina]);
 			}
@@ -43,7 +47,7 @@ public class Tabella {
 					tabella[i][estratto].setValore(0);
 					tabella[i][estratto].setEstratto(true);
 				}
-			tab.reset();	
+			Tabellone.reset();	
 			}
 			for(int i=0; i<3;i++){
 				for(int j=0; j<9; j++){
@@ -52,12 +56,24 @@ public class Tabella {
 			}
 			scheda.setValoriScheda(schedatombola);
 			schede.add(scheda);
-			return scheda;
 	}
+	
+	
+	
+	//resetta schede
+	public void resetschede(){
+		schede.clear();
+	}
+	
+	
+	
 	
 	public String prendiNumero (int riga, int colonna){
 		return "" + tabella[riga][colonna].getValore();
 	}
+	
+	
+	
 	
 	// controllo se è presente il numero dentro la tabella
 	public void controllaNumero(int num){
