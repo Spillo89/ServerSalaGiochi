@@ -6,7 +6,7 @@ public class Rulli {
 	
 	private Random genera = new Random();
 	private int val[] = null;
-	private int punteggio = 0;
+	public Integer Jackpot=0;
 	
 	
 	// creo l'oggetto e inizializzo a 0 i valori
@@ -39,7 +39,12 @@ public class Rulli {
 				if(val[1]==val[2])
 					//controllo se il numero estratto è il jackpot
 					if(val[0]==1)
-						punti = 100;
+						if(Jackpot<100){
+							punti=100;
+						}else{
+							punti=Jackpot;
+							Jackpot=0;
+						}
 					else
 						punti = 20;
 			}
@@ -47,8 +52,11 @@ public class Rulli {
 			else if (val[0]==val[2])
 				punti = 10;
 			else
+				Jackpot=Jackpot+10;
 				punti = 0;
 		return punti;				
 	}
+	
+	
 
 }

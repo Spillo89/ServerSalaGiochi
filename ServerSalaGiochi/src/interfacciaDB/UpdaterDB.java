@@ -113,5 +113,31 @@ public class UpdaterDB {
 		//da finire
 
 	}
+	
+	
+	//cerca i punti totali di una persona
+	
+	public static Integer prendipunti(Utente utente) throws SQLException{
+		
+		Integer puntitotali=null;
+		dbc = ConnessioneDB.getIstance();
+		PreparedStatement ps = dbc.getPStatement(StatementDB.CercaUtente);
+		ps.setString(1, utente.getNomeUtente());
+		try {
+			System.out.println("eseguo la query di ricerca");
+			ResultSet rs = ps.executeQuery(StatementDB.CercaUtente);
+			while(rs.next()){
+				puntitotali=rs.getInt("punti");
+			}
+
+
+		}catch (SQLException e) {
+			System.out.println("errore");
+			e.printStackTrace();
+		}
+		
+		return puntitotali;
+		
+	}
 
 }

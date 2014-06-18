@@ -132,8 +132,8 @@ public class SimpleThread extends Thread {
 			switch(st.nextToken()){
 				case "SLOT":
 					combinazioneslot=Slot.calcolaCombinazione();
-					Integer creditivinti=null;
-					Integer credititotali=null;
+					Integer creditivinti=Slot.getPunti();
+					Integer credititotali=UpdaterDB.prendipunti(utente);
 					String risultato=Slot.getPremio();
 					ServerEncoderSlot.slot(combinazioneslot, risultato, creditivinti, credititotali);
 				case "TOMBOLA":

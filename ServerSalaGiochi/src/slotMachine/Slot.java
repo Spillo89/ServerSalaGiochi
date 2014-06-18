@@ -34,7 +34,7 @@ public class Slot {
 	// prendo i risultati della vittoria/sconfitta
 	public static String getPremio (){
 		String vincita=null;
-		if(r.getPremio() == 100){
+		if(r.getPremio() >= 100){
 			vincita="JACKPOT";
 		} else if(r.getPremio()== 0){
 			vincita="LOSE";
@@ -44,5 +44,13 @@ public class Slot {
 		}
 		return vincita;
 	}
+	// prendo i punti della vittoria/sconfitta
+		public static Integer getPunti (){
+			Integer vincita=null;
+			
+			vincita=r.getPremio();
+	
+			return vincita;
+		}
 	
 }
