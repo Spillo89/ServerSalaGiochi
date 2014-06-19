@@ -4,6 +4,7 @@ import java.util.StringTokenizer;
 
 import costruttore.Utente;
 public class ServerDecoderLogin {
+	@SuppressWarnings("null")
 	public static Utente decoderlogin(String stringainiziale){
 		Utente utente=null;
 		StringTokenizer st = new StringTokenizer(stringainiziale, "#");

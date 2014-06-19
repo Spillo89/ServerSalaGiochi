@@ -2,6 +2,8 @@ package tombola;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import serverdecoder.ServerDecoderNSchede;
 import costruttore.SchedaTomb;
 
 /* oggetto che crea l'istanza tabella */
@@ -29,6 +31,8 @@ public class Tabella {
 		
 		
 		tabella = new Casella [3][9];
+		
+		
 		// riempio la tabella con tutti i numeri, ordinati per decine
 		for (int decina = 0; decina<9; decina ++){
 			for(int j=0; j<3; j++){
@@ -87,33 +91,57 @@ public class Tabella {
 		}
 	}
 	
-	public String vincita(){
-		Integer contanumero = 0, tombola=0;
+	public static Boolean vincita(String dichiarazione){
+		Integer controllo=0;
+		Integer controllotomb=0;
 		
-		String vittoria = null;
-		for(int i=0; i<3;i++){
-			for(int j=0; j<9; j++){
-				if(tabella[i][j].isEstratto()==true){
-					contanumero++;
-				}
-				switch(contanumero){
+		
+		for(int i=0;i<ServerDecoderNSchede.NumeroSchede;i++){
+			for(int j=0;j<3;j++){
+				for(int k=0;k<9;k++){
+					Integer numero= Integer.parseInt(schede.get(i).getValoreSchedaUnico(j, k));
 					
-				case 2: vittoria = "Ambo";
+					Integer unità=(numero-1)%10;
+					Integer decina=((numero-1)-unità)/10;
+					
+					if(Tabellone.grigliaTot[unità][decina].isEstratto()==true){
+						controllo++;
+						controllotomb++;
+					};
+					
+					switch(dichiarazione){
+					case"AMBO":
+						if(controllo==2){
+							return true;
+						}
+					case"TERNA":
+						if(controllo==3){
+							return true;
+						}
+					case"QUATERNA":
+						if(controllo==4){
+							return true;
+						}
+					case"CINQUINA":
+						if(controllo==5){
+							return true;
+						}
+					}
+					
+				}
+				controllo=0;
 				
-				case 3: vittoria = "Terno";
-		
-				case 4: vittoria = "Quaterna";
-		
-				case 5: vittoria = "Cinquina";
-
-				default: vittoria = null;
+				if(dichiarazione.equalsIgnoreCase("TOMBOLA")){
+					if(controllotomb==15){
+						return true;
+					}
 				}
 			}
-			tombola	= tombola+contanumero;
-			contanumero = 0;
+			
 		}
-		if(tombola== 15)
-			vittoria = "Tombola";
-		return vittoria;
+		
+		return false;
+		
 	}
+	
 }

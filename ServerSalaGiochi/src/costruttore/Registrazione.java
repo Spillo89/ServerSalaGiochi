@@ -2,10 +2,10 @@ package costruttore;
 
 public class Registrazione{
 
-	private static String Nome=null;
-	private static String Cognome=null;
-	private static String NomeUtente=null;
-	private static String Psw=null;
+	private String Nome=null;
+	private String Cognome=null;
+	private String NomeUtente=null;
+	private String Psw=null;
 	
 	
 	

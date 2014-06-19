@@ -2,7 +2,7 @@ package costruttore;
 
 public class SchedaTomb {
 	
-	private static String ValoriScheda[][] = new String[3][9];
+	private String ValoriScheda[][] = new String[3][9];
 
 	
 	
@@ -14,7 +14,7 @@ public class SchedaTomb {
 
 
 
-	public static String[][] getValoriScheda() {
+	public String[][] getValoriScheda() {
 		return ValoriScheda;
 	}
 
@@ -23,7 +23,7 @@ public class SchedaTomb {
 		ValoriScheda = valoriScheda;
 	}
 	
-	public static String getValoreSchedaUnico(Integer i, Integer j){
+	public String getValoreSchedaUnico(Integer i, Integer j){
 		
 		return ValoriScheda[i][j];
 	}

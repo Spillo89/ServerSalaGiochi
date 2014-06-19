@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class PosizioneGiocatore {
 
+	@SuppressWarnings("null")
 	public static AggiornamentoCarteSingoloGiocatore controlla(AggiornamentoCarte aggiornamento, ArrayList<String> nomigiocanti, String giocatore){
 		
 		AggiornamentoCarteSingoloGiocatore agg=null;

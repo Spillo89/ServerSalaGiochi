@@ -24,7 +24,7 @@ public class Tavolo {
 	}
 	
 	public Carta prendiCarta(Carta c){
-		Iterator iteratore = carte.iterator();
+		Iterator<Carta> iteratore = carte.iterator();
 		while(iteratore.hasNext()){
 			Carta c1=(Carta)iteratore.next();
 			if(c1.cartaUguale(c))

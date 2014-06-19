@@ -4,7 +4,6 @@ import tombola.Tabella;
 
 public class ServerEncoderSchedeTombola {
 
-	@SuppressWarnings("static-access")
 	public static String schede(Integer credititotali){
 
 		String stringafinale=null;

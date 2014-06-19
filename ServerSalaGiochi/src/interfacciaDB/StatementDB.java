@@ -16,6 +16,11 @@ public class StatementDB {
 	
 	static String CercaUtente = "SELECT utente AND psw FROM clienti WHERE utente = ?";
 
+	//aggiorna i punti di un giocatore
+	
+	static String AggiornaPunti = "UPDATE clienti SET" + "punti = ?"+"WHERE utente=?";
+	
+	
 	// giocatore che fa una partita a rubamazzo
 	
 	static String partitaRb = "UPDATE clienti SET " +

@@ -108,9 +108,16 @@ public class UpdaterDB {
 	
 	public static void aggiornapunti(Utente utente, Integer puntidaaggiungere, Integer puntispesi) throws SQLException{
 
-		ResultSet tupla=cercaUtente(utente);
+		Integer punti=puntidaaggiungere+puntispesi;
 		
-		//da finire
+		dbc = ConnessioneDB.getIstance();
+		PreparedStatement ps = dbc.getPStatement(StatementDB.AggiornaPunti);
+		ps.setInt(1, punti);
+		ps.setString(2, utente.getNomeUtente());
+		
+		System.out.println("eseguo la query di aggiornamento punti");
+		ps.executeQuery(StatementDB.AggiornaPunti);
+		
 
 	}
 	

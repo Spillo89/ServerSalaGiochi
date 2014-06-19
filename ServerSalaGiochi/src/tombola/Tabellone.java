@@ -2,12 +2,12 @@ package tombola;
 
 import java.util.Random;
 
-import costruttore.NumeroEstratto;
+import costruttore.Utente;
 
 public class Tabellone {
 	
 	
-	private static Casella grigliaTot[][];				 // griglia del tabellone
+	public static Casella grigliaTot[][];				 // griglia del tabellone
 	static Random estraggo = new Random(); 			 //estrattore del numero random
 	static int num_estratti = 0;
 	
@@ -28,7 +28,7 @@ public class Tabellone {
 			}
 	}
 	
-	public int estrazione(){					// metodo di estrazione numero
+	public static void estrazione(Utente utente){					// metodo di estrazione numero
 		int estratto = 0;
 		int decina = 0;
 		int unita = 0;
@@ -37,31 +37,73 @@ public class Tabellone {
 			estratto = estratto + 1;
 			unita 	 = estratto%10;
 			decina	 = (estratto - unita)/10;
-		}while(grigliaTot[decina][unita-1].getValore() == 0);
-		grigliaTot[decina][unita-1].setValore(0);
+			if(unita == 0){
+				unita = 10;
+				decina --;
+			}
+		}while(grigliaTot[decina][unita-1].isEstratto());
 		grigliaTot[decina][unita-1].setEstratto(true);
-		num_estratti = 0;
-		NumeroEstratto.setNumero(estratto);
-		return estratto;
+		num_estratti ++;
+		
+		Boolean finisce=fine();
+		
+		for(Integer i=0;i<PartitaTombola.Partite.size();i++){
+			if(PartitaTombola.Partite.get(i).getUtente1().equalsIgnoreCase(utente.getNomeUtente())||PartitaTombola.Partite.get(i).getUtente2().equalsIgnoreCase(utente.getNomeUtente())){
+			
+				if(finisce==false){
+				
+					PartitaTombola.Partite.get(i).setUltimoNEstratto(estratto);
+					PartitaTombola.Partite.get(i).setAvvenuta(true);
+					System.out.println("il numero estratto è stato salvato nell'array delle partite");
+				}
+				else{
+					PartitaTombola.Partite.get(i).setUltimoNEstratto(null);
+					System.out.println("il numero estratto è stato salvato nell'array delle partite");
+					num_estratti=0;
+				}
+			
+			}
+				
+		}
 	}
 	
-	public boolean fine(){
+	public static boolean fine(){
 		if(num_estratti == 90)
 			return true;
 		else
 			return false;
 	}
 	
-	public static int estraiColonna(int decina){		// metodo che riempie le colonne della casella
-		int estratto = 0;
-		int unita	 = 0;
+	public static Integer estraiColonna(int decina){		// metodo che riempie le colonne della casella
+		Integer estratto = 0;
+		Integer unita	 = 0;
 		do{
 			unita 		= estraggo.nextInt(10);
 			estratto 	= grigliaTot[decina][unita].getValore();
 		}while(grigliaTot[decina][unita].getValore() == 0);
 		grigliaTot[decina][unita].setValore(0);
 		grigliaTot[decina][unita-1].setEstratto(true);
-		NumeroEstratto.setNumero(estratto);
 		return estratto;
 	}
+	
+	public static Integer quantovinci(String tipovincita, Integer totpunti){
+		
+		Integer puntivinti=null;
+		
+		switch(tipovincita){
+		case"AMBO":	
+			puntivinti=(totpunti*5)/100;
+		case"TERNO":
+			puntivinti=(totpunti*10)/100;
+		case"QUANTERNA":
+			puntivinti=(totpunti*15)/100;
+		case"CINQUINA":
+			puntivinti=(totpunti*20)/100;
+		case"TOMBOLA":
+			puntivinti=(totpunti*50)/100;
+		}
+		
+		return puntivinti;
+	};
+	
 }

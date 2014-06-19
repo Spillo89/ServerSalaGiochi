@@ -19,20 +19,25 @@ import rubaMazzo.PartitaRubamazzo;
 import serverdecoder.ServerDecoderLogin;
 import serverdecoder.ServerDecoderNSchede;
 import serverdecoder.ServerDecoderRegistrazione;
+import serverdecoder.ServerDecoderVincitaTomb;
 import serverencoder.ServerEncoderLogin;
+import serverencoder.ServerEncoderNEstratto;
 import serverencoder.ServerEncoderNoCrediti;
 import serverencoder.ServerEncoderRegistrazione;
 import serverencoder.ServerEncoderSchedeTombola;
 import serverencoder.ServerEncoderSlot;
+import serverencoder.ServerEncoderVincitaTombola;
 import slotMachine.Slot;
 import tombola.PartitaTombola;
 import tombola.Tabella;
+import tombola.Tabellone;
 
 public class SimpleThread extends Thread {
 
 	String parolachiave=null;
 
-	public SimpleThread(Socket clientSocket, PartitaTombola partitatombola, PartitaRubamazzo partitarubamazzo) throws SQLException {
+	@SuppressWarnings("null")
+	public SimpleThread(Socket clientSocket, PartitaTombola partitatombola, PartitaRubamazzo partitarubamazzo) throws SQLException, InterruptedException {
 		// TODO Auto-generated constructor stub
 		//Contiene il codice che eseguirà il thread
 
@@ -144,8 +149,9 @@ public class SimpleThread extends Thread {
 					credititotali=UpdaterDB.prendipunti(utente);
 					String risultato=Slot.getPremio();
 					dainviare=ServerEncoderSlot.slot(combinazioneslot, risultato, creditivinti, credititotali);
-
 					UpdaterDB.aggiornapunti(utente, creditivinti, creditispesi);
+
+
 				}else{
 					UpdaterDB.aggiornapunti(utente, 0, creditispesi);
 					dainviare=ServerEncoderNoCrediti.nocrediti(UpdaterDB.prendipunti(utente));
@@ -153,7 +159,13 @@ public class SimpleThread extends Thread {
 			case "TOMBOLA":
 				if(UpdaterDB.prendipunti(utente)>100){
 					creditispesi=ServerDecoderNSchede.NumeroSchede*20;
+
+					//entro nella sala d'attesa
+
+					partitatombola.partitatombola(utente.getNomeUtente(), ServerDecoderNSchede.NumeroSchede);
+
 					UpdaterDB.aggiornapunti(utente, 0, creditispesi);
+
 					for(int i=0;i<ServerDecoderNSchede.NumeroSchede;i++){
 						Tabella.tabella();
 					}
@@ -161,7 +173,261 @@ public class SimpleThread extends Thread {
 					dainviare=ServerEncoderSchedeTombola.schede(credititotali);
 					writer.write(dainviare);
 					writer.flush();
-					
+
+					while(!ServerDecoderVincitaTomb.VincitaTombola.equalsIgnoreCase("TOMBOLA")){
+
+						stringa = reader.readLine();
+
+						st = new StringTokenizer(stringa, "#");
+
+
+						switch(st.nextToken()){
+
+						case "ESTRAZIONE":
+
+							Integer estratto=null;
+
+							for(Integer i=0;i<PartitaTombola.Partite.size();i++){
+								if(PartitaTombola.Partite.get(i).getUtente1().equalsIgnoreCase(utente.getNomeUtente())||PartitaTombola.Partite.get(i).getUtente2().equalsIgnoreCase(utente.getNomeUtente())){
+									if(PartitaTombola.Partite.get(i).getAvvenuta()==false){
+										Tabellone.estrazione(utente);
+									}
+
+								}
+
+							}
+
+							for(Integer i=0;i<PartitaTombola.Partite.size();i++){
+								if(PartitaTombola.Partite.get(i).getUtente1().equalsIgnoreCase(utente.getNomeUtente())||PartitaTombola.Partite.get(i).getUtente2().equalsIgnoreCase(utente.getNomeUtente())){
+									estratto=PartitaTombola.Partite.get(i).getUltimoNEstratto();
+
+								}
+
+							}
+
+							dainviare=ServerEncoderNEstratto.n_estratto(estratto);
+
+
+							for(Integer i=0;i<PartitaTombola.Partite.size();i++){
+								if(PartitaTombola.Partite.get(i).getUtente1().equalsIgnoreCase(utente.getNomeUtente())||PartitaTombola.Partite.get(i).getUtente2().equalsIgnoreCase(utente.getNomeUtente())){
+									PartitaTombola.Partite.get(i).setAvvenuta(false);
+
+								}
+
+							}
+
+							writer.write(dainviare);
+							writer.flush();
+
+						case "VINCITATOMBOLA":
+
+							ServerDecoderVincitaTomb.decodervincita(stringa);
+
+							Boolean vero = Tabella.vincita(ServerDecoderVincitaTomb.VincitaTombola);
+
+							if(vero==true){
+								for(Integer i=0;i<PartitaTombola.Partite.size();i++){
+									if(PartitaTombola.Partite.get(i).getUtente1().equalsIgnoreCase(utente.getNomeUtente())||PartitaTombola.Partite.get(i).getUtente2().equalsIgnoreCase(utente.getNomeUtente())){
+										switch(ServerDecoderVincitaTomb.VincitaTombola){
+										case"AMBO":
+											switch(PartitaTombola.Partite.get(i).getVincitaChiamata()){
+											case "AMBO":
+												dainviare="KO#la vincita è già stata chiamata\n";
+
+											case "TERNO":
+												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un terno\n";
+											case "QUATERNA":
+												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un quaterna\n";
+											case "CINQUINA":
+												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un cinquina\n";
+											case "TOMBOLA":
+												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un tombola\n";
+											default: 
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+
+
+											}
+										case"TERNO":
+											switch(PartitaTombola.Partite.get(i).getVincitaChiamata()){
+											case "AMBO":
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+											case "TERNO":
+												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un terno\n";
+											case "QUATERNA":
+												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un quaterna\n";
+
+											case "CINQUINA":
+												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un cinquina\n";
+
+											case "TOMBOLA":
+												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un tombola\n";
+
+											default: 
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+
+
+											}
+										case"QUATERNA":
+											switch(PartitaTombola.Partite.get(i).getVincitaChiamata()){
+											case "AMBO":
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+
+											case "TERNO":
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+
+											case "QUATERNA":
+												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un quaterna\n";
+
+											case "CINQUINA":
+												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un cinquina\n";
+
+											case "TOMBOLA":
+												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un tombola\n";
+
+											default: 
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+
+
+											}
+										case"CINQUINA":
+											switch(PartitaTombola.Partite.get(i).getVincitaChiamata()){
+											case "AMBO":
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+
+											case "TERNO":
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+
+											case "QUATERNA":
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+
+											case "CINQUINA":
+												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un cinquina\n";
+
+											case "TOMBOLA":
+												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un tombola\n";
+
+											default: 
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+
+
+											}
+										case"TOMBOLA":
+											switch(PartitaTombola.Partite.get(i).getVincitaChiamata()){
+											case "AMBO":
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+
+											case "TERNO":
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+
+											case "QUATERNA":
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+
+											case "CINQUINA":
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+
+											case "TOMBOLA":
+												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un tombola\n";
+
+											default: 
+												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
+
+												creditivinti=Tabellone.quantovinci(ServerDecoderVincitaTomb.VincitaTombola, PartitaTombola.Partite.get(i).getRicavato());
+												UpdaterDB.aggiornapunti(utente, creditivinti, 0);
+
+												dainviare=ServerEncoderVincitaTombola.vinicitatombola(creditivinti, ServerDecoderVincitaTomb.VincitaTombola);
+
+
+											}
+										}
+
+									}
+
+								}
+
+							}else{
+								dainviare="KO#falsa dichiarazione\n";
+							}
+
+							writer.write(dainviare);
+							writer.flush();
+
+
+
+						}
+					}
+					ServerDecoderVincitaTomb.VincitaTombola=null;
+
 				}else{
 					dainviare=ServerEncoderNoCrediti.nocrediti(UpdaterDB.prendipunti(utente));
 				}
