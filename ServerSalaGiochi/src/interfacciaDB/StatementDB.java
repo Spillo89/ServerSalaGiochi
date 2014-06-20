@@ -56,5 +56,10 @@ public class StatementDB {
 	
 
 	static String classificaGiorno = "SELECT utente, punti_giornalieri FROM  clienti" +
-			"ORDER BY punti_giornalieri DESCR";
+			"ORDER BY punti_giornalieri DESC";
+	
+	//seleziona tutti i nomiutente e i punti della tabella clienti
+	
+	static String tuttoclassifica="SELECT utente, punti FROM clienti";
+	
 }

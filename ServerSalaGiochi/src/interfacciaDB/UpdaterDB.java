@@ -38,20 +38,6 @@ public class UpdaterDB {
 	}
 
 
-
-	//cerca un utente e mi restituisce la tupla
-	public static ResultSet cercaUtente(Utente utente) throws SQLException{
-
-		dbc = ConnessioneDB.getIstance();
-		PreparedStatement ps = dbc.getPStatement(StatementDB.CercaUtente);
-		ps.setString(1, utente.getNomeUtente());
-		System.out.println("eseguo la query di ricerca");
-		ResultSet rs = ps.executeQuery(StatementDB.CercaUtente);
-
-		return rs;
-	}
-
-	
 	//cerca se esiste un utente e se la psw è corretta
 	@SuppressWarnings("null")
 	public static UtenteLogin cercaUtentePsw(Utente utente) throws SQLException{
@@ -87,9 +73,9 @@ public class UpdaterDB {
 		return utentelogin;
 	}
 
-	
+
 	//registra un utente
-	
+
 	public static void aggiungiUtente(Registrazione utente) throws SQLException{
 
 		dbc = ConnessioneDB.getIstance();
@@ -105,27 +91,27 @@ public class UpdaterDB {
 	}
 
 	//aggiorna i punti di un utente
-	
+
 	public static void aggiornapunti(Utente utente, Integer puntidaaggiungere, Integer puntispesi) throws SQLException{
 
 		Integer punti=puntidaaggiungere+puntispesi;
-		
+
 		dbc = ConnessioneDB.getIstance();
 		PreparedStatement ps = dbc.getPStatement(StatementDB.AggiornaPunti);
 		ps.setInt(1, punti);
 		ps.setString(2, utente.getNomeUtente());
-		
+
 		System.out.println("eseguo la query di aggiornamento punti");
 		ps.executeQuery(StatementDB.AggiornaPunti);
-		
+
 
 	}
-	
-	
+
+
 	//cerca i punti totali di una persona
-	
+
 	public static Integer prendipunti(Utente utente) throws SQLException{
-		
+
 		Integer puntitotali=null;
 		dbc = ConnessioneDB.getIstance();
 		PreparedStatement ps = dbc.getPStatement(StatementDB.CercaUtente);
@@ -142,9 +128,118 @@ public class UpdaterDB {
 			System.out.println("errore");
 			e.printStackTrace();
 		}
-		
+
 		return puntitotali;
+
+	}
+
+	//ordina la classifica
+
+	public static void ordinaClassifica() throws SQLException{
+
+		dbc = ConnessioneDB.getIstance();
+		PreparedStatement ps = dbc.getPStatement(StatementDB.classifica);
+
+		System.out.println("eseguo la query di ordinamento classifica");
+
+		ps.executeQuery(StatementDB.classifica);
+
+	}
+
+	//cerca la posizione di un giocatore in classifica
+
+	public static Integer posizioneClassifica(Utente utente) throws SQLException{
+
+		dbc = ConnessioneDB.getIstance();
+
+		Integer i=0;
+
+		ResultSet rs=null;
+		
+		ordinaClassifica();
+
+		PreparedStatement ps = dbc.getPStatement(StatementDB.tuttoclassifica);
+		do{
+			rs = ps.executeQuery(StatementDB.tuttoclassifica);
+
+			i++;
+
+		}while(rs.getString("utente").equalsIgnoreCase(utente.getNomeUtente())&& rs.next());
+		
+		return i;
 		
 	}
+	
+	
+	public static String prendinomi(Utente utente) throws SQLException{
+
+		String nomi=null;
+		dbc = ConnessioneDB.getIstance();
+		PreparedStatement ps = dbc.getPStatement(StatementDB.CercaUtente);
+		ps.setString(1, utente.getNomeUtente());
+		try {
+			System.out.println("eseguo la query di ricerca");
+			ResultSet rs = ps.executeQuery(StatementDB.CercaUtente);
+			while(rs.next()){
+				nomi=rs.getString("nome");
+			}
+
+
+		}catch (SQLException e) {
+			System.out.println("errore");
+			e.printStackTrace();
+		}
+
+		return nomi;
+
+	}
+	
+	public static String prendicognomi(Utente utente) throws SQLException{
+
+		String cognomi=null;
+		dbc = ConnessioneDB.getIstance();
+		PreparedStatement ps = dbc.getPStatement(StatementDB.CercaUtente);
+		ps.setString(1, utente.getNomeUtente());
+		try {
+			System.out.println("eseguo la query di ricerca");
+			ResultSet rs = ps.executeQuery(StatementDB.CercaUtente);
+			while(rs.next()){
+				cognomi=rs.getString("cognome");
+			}
+
+
+		}catch (SQLException e) {
+			System.out.println("errore");
+			e.printStackTrace();
+		}
+
+		return cognomi;
+
+	}
+	
+	
+	public static String prendiultimologin(Utente utente) throws SQLException{
+
+		String login=null;
+		dbc = ConnessioneDB.getIstance();
+		PreparedStatement ps = dbc.getPStatement(StatementDB.CercaUtente);
+		ps.setString(1, utente.getNomeUtente());
+		try {
+			System.out.println("eseguo la query di ricerca");
+			ResultSet rs = ps.executeQuery(StatementDB.CercaUtente);
+			while(rs.next()){
+				login=rs.getString("ultimologin");
+			}
+
+
+		}catch (SQLException e) {
+			System.out.println("errore");
+			e.printStackTrace();
+		}
+
+		return login;
+
+	}
+	
 
 }

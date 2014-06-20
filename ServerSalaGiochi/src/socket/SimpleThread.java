@@ -77,7 +77,7 @@ public class SimpleThread extends Thread {
 				StringTokenizer st = new StringTokenizer(stringa, "#");
 				switch(st.nextToken()){
 				case "LOGIN": 
-					ServerDecoderLogin.decoderlogin(stringa);
+					utente=ServerDecoderLogin.decoderlogin(stringa);
 					parolachiave="LOGIN";
 				case "REGISTRAZIONE": 
 					utenteregistrazione=ServerDecoderRegistrazione.decoderregistrazione(stringa);
@@ -106,23 +106,46 @@ public class SimpleThread extends Thread {
 
 				switch(parolachiave){
 				case"LOGINOK": 
-
-					//salvo i dati che mi servono in utentelogin
+					
+					//prendo tutti i dati dal DB
+					
+					utentelogin.setPosizione(UpdaterDB.posizioneClassifica(utente));
+					utentelogin.setNome(UpdaterDB.prendinomi(utente));
+					utentelogin.setCognome(UpdaterDB.prendicognomi(utente));
+					utentelogin.setCrediti(UpdaterDB.prendipunti(utente));
+					utentelogin.setUltimoLogin(UpdaterDB.prendiultimologin(utente));
+					
 					dainviare=ServerEncoderLogin.login(utentelogin);
+					
 					writer.write(dainviare);
 					writer.flush(); 
 
 				case"LOGINKO":
+					
 					dainviare="KO#le credenziali inserite non sono corrette\n";
+					
 					writer.write(dainviare);
 					writer.flush(); 
+				
 				case"REGISTRAZIONEOK":
-					//salvo i dari che mi servono in utetnelogin
+					
+					//salvo i dari che mi servono in utetnelogin dal DB
+					
+					utentelogin.setPosizione(UpdaterDB.posizioneClassifica(utente));
+					utentelogin.setNome(UpdaterDB.prendinomi(utente));
+					utentelogin.setCognome(UpdaterDB.prendicognomi(utente));
+					utentelogin.setCrediti(UpdaterDB.prendipunti(utente));
+					
+					
 					dainviare=ServerEncoderRegistrazione.registrazione(utentelogin);
+					
 					writer.write(dainviare);
 					writer.flush(); 
+					
 				case"REGISTRAZIONEKO":
+					
 					dainviare="KO#il nomeutente è già presente o le credenziali non sono complete\n";
+					
 					writer.write(dainviare);
 					writer.flush(); 
 				}
