@@ -3,6 +3,8 @@ package interfacciaDB;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import costruttore.Registrazione;
 import costruttore.Utente;
 import costruttore.UtenteLogin;
@@ -155,7 +157,7 @@ public class UpdaterDB {
 		Integer i=0;
 
 		ResultSet rs=null;
-		
+
 		ordinaClassifica();
 
 		PreparedStatement ps = dbc.getPStatement(StatementDB.tuttoclassifica);
@@ -165,12 +167,12 @@ public class UpdaterDB {
 			i++;
 
 		}while(rs.getString("utente").equalsIgnoreCase(utente.getNomeUtente())&& rs.next());
-		
+
 		return i;
-		
+
 	}
-	
-	
+
+
 	public static String prendinomi(Utente utente) throws SQLException{
 
 		String nomi=null;
@@ -193,7 +195,7 @@ public class UpdaterDB {
 		return nomi;
 
 	}
-	
+
 	public static String prendicognomi(Utente utente) throws SQLException{
 
 		String cognomi=null;
@@ -216,8 +218,8 @@ public class UpdaterDB {
 		return cognomi;
 
 	}
-	
-	
+
+
 	public static String prendiultimologin(Utente utente) throws SQLException{
 
 		String login=null;
@@ -240,6 +242,124 @@ public class UpdaterDB {
 		return login;
 
 	}
-	
+
+	public static ArrayList<String> classificaGlobale() throws SQLException{
+
+		ArrayList<String> classifica = new ArrayList<String>();
+
+		dbc = ConnessioneDB.getIstance();
+
+		Integer i=0;
+
+		ResultSet rs=null;
+
+		ordinaClassifica();
+
+		PreparedStatement ps = dbc.getPStatement(StatementDB.tuttoclassifica);
+
+		rs = ps.executeQuery(StatementDB.tuttoclassifica);
+
+		while(rs.next()||i<10){
+
+			classifica.add(rs.getString("utente"));
+
+		}
+
+		return classifica;
+
+	}
+
+
+
+
+	public static ArrayList<Integer> classificaGlobalePunti() throws SQLException{
+
+		ArrayList<Integer> classifica = new ArrayList<Integer>();
+
+		dbc = ConnessioneDB.getIstance();
+
+		Integer i=0;
+
+		ResultSet rs=null;
+
+		ordinaClassifica();
+
+		PreparedStatement ps = dbc.getPStatement(StatementDB.tuttoclassifica);
+
+		rs = ps.executeQuery(StatementDB.tuttoclassifica);
+
+		while(rs.next()||i<10){
+
+			classifica.add(rs.getInt("punti"));
+
+		}
+
+		return classifica;
+
+	}
+
+	public static void ordinaClassificaGiorn() throws SQLException{
+
+		dbc = ConnessioneDB.getIstance();
+		PreparedStatement ps = dbc.getPStatement(StatementDB.classifica);
+
+		System.out.println("eseguo la query di ordinamento classifica");
+
+		ps.executeQuery(StatementDB.classifica);
+
+	}
+
+	public static ArrayList<String> classificaGlobaleGiorn() throws SQLException{
+
+		ArrayList<String> classifica = new ArrayList<String>();
+
+		dbc = ConnessioneDB.getIstance();
+
+		Integer i=0;
+
+		ResultSet rs=null;
+
+		ordinaClassificaGiorn();
+
+		PreparedStatement ps = dbc.getPStatement(StatementDB.tuttoclassificagiorn);
+
+		rs = ps.executeQuery(StatementDB.tuttoclassificagiorn);
+
+		while(rs.next()||i<10){
+
+			classifica.add(rs.getString("utente"));
+
+		}
+
+		return classifica;
+
+	}
+
+	public static ArrayList<Integer> classificaGlobalePuntiGiorn() throws SQLException{
+
+		ArrayList<Integer> classifica = new ArrayList<Integer>();
+
+		dbc = ConnessioneDB.getIstance();
+
+		Integer i=0;
+
+		ResultSet rs=null;
+
+		ordinaClassificaGiorn();
+
+		PreparedStatement ps = dbc.getPStatement(StatementDB.tuttoclassificagiorn);
+
+		rs = ps.executeQuery(StatementDB.tuttoclassificagiorn);
+
+		while(rs.next()||i<10){
+
+			classifica.add(rs.getInt("punti"));
+
+		}
+
+		return classifica;
+
+	}
+
 
 }

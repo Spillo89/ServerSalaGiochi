@@ -32,6 +32,21 @@ public class PartitaTombola {
 		
 		Partite.add(giocatore);
 	}
+	
+	public void cancellapartitafinita(String nomeutente){
+		
+		Integer i=0;
+		
+		while(!Partite.get(i).getUtente1().equalsIgnoreCase(nomeutente)||!Partite.get(i).getUtente2().equalsIgnoreCase(nomeutente)){
+			
+			i++;
+			
+		}
+		
+		Partite.get(i).setUtente1(null);
+		Partite.get(i).setUtente2(null);
+		
+	}
 
 
 }

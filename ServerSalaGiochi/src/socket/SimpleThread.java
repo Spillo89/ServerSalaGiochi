@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import costruttore.Registrazione;
@@ -20,6 +21,7 @@ import serverdecoder.ServerDecoderLogin;
 import serverdecoder.ServerDecoderNSchede;
 import serverdecoder.ServerDecoderRegistrazione;
 import serverdecoder.ServerDecoderVincitaTomb;
+import serverencoder.ServerEncoderClassifica;
 import serverencoder.ServerEncoderLogin;
 import serverencoder.ServerEncoderNEstratto;
 import serverencoder.ServerEncoderNoCrediti;
@@ -36,7 +38,6 @@ public class SimpleThread extends Thread {
 
 	String parolachiave=null;
 
-	@SuppressWarnings("null")
 	public SimpleThread(Socket clientSocket, PartitaTombola partitatombola, PartitaRubamazzo partitarubamazzo) throws SQLException, InterruptedException {
 		// TODO Auto-generated constructor stub
 		//Contiene il codice che eseguirà il thread
@@ -147,7 +148,7 @@ public class SimpleThread extends Thread {
 					dainviare="KO#il nomeutente è già presente o le credenziali non sono complete\n";
 					
 					writer.write(dainviare);
-					writer.flush(); 
+					writer.flush();
 				}
 
 			}while(parolachiave.equalsIgnoreCase("LOGINKO")||parolachiave.equalsIgnoreCase("REGISTRAZIONEKO"));
@@ -450,6 +451,8 @@ public class SimpleThread extends Thread {
 						}
 					}
 					ServerDecoderVincitaTomb.VincitaTombola=null;
+					
+					partitatombola.cancellapartitafinita(utente.getNomeUtente());
 
 				}else{
 					dainviare=ServerEncoderNoCrediti.nocrediti(UpdaterDB.prendipunti(utente));
@@ -458,9 +461,24 @@ public class SimpleThread extends Thread {
 			case "RUBAMAZZO":
 
 			case "CLASSIFICAGLOBALE":
+				
+				ArrayList<String> nomiclassifica=UpdaterDB.classificaGlobale();
+				ArrayList<Integer> punticlassifica=UpdaterDB.classificaGlobalePunti();
+				
+				dainviare=ServerEncoderClassifica.classifica(nomiclassifica, punticlassifica);
+				
+				writer.write(dainviare);
+				writer.flush();
 
 			case "CLASSIFICAGIORNALIERA":
+				
+				nomiclassifica=UpdaterDB.classificaGlobaleGiorn();
+				punticlassifica=UpdaterDB.classificaGlobalePuntiGiorn();
 
+				dainviare=ServerEncoderClassifica.classifica(nomiclassifica, punticlassifica);
+				
+				writer.write(dainviare);
+				writer.flush();
 			}
 
 
