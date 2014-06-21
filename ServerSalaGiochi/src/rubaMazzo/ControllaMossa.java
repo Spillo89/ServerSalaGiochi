@@ -2,13 +2,22 @@ package rubaMazzo;
 
 public class ControllaMossa {
 	
-	public static AggiornamentoCarte controlla(AggiornamentoCarte aggiornamentocarte, Carta cartagiocata, String[] utenti, String utentecorrente){
+	public static AggiornamentoCarte controlla(AggiornamentoCarte aggiornamentocarte, Carta cartagiocata, String utentecorrente, Integer idpartita){
 		
 		Boolean fatto=false;
 		
 		int i=0;
-		while(utenti[i].equalsIgnoreCase(utentecorrente)){
-			i++;
+		if(utentecorrente.equalsIgnoreCase(PartitaRubamazzo.Partite.get(idpartita).getUtente1())){
+			i=0;
+		}
+		if(utentecorrente.equalsIgnoreCase(PartitaRubamazzo.Partite.get(idpartita).getUtente2())){
+			i=1;
+		}
+		if(utentecorrente.equalsIgnoreCase(PartitaRubamazzo.Partite.get(idpartita).getUtente3())){
+			i=2;
+		}
+		if(utentecorrente.equalsIgnoreCase(PartitaRubamazzo.Partite.get(idpartita).getUtente4())){
+			i=3;
 		}
 		
 		if(i==0){

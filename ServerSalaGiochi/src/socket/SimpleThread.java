@@ -16,12 +16,16 @@ import costruttore.SlotMachine;
 import costruttore.Utente;
 import costruttore.UtenteLogin;
 
+import rubaMazzo.Carta;
 import rubaMazzo.ComposizioneMazzo;
+import rubaMazzo.ControllaMossa;
 import rubaMazzo.DistribuzioneCarte;
 import rubaMazzo.PartitaRubamazzo;
+import rubaMazzo.PescaCarta;
 import serverdecoder.ServerDecoderLogin;
 import serverdecoder.ServerDecoderNSchede;
 import serverdecoder.ServerDecoderRegistrazione;
+import serverdecoder.ServerDecoderRubamazzo;
 import serverdecoder.ServerDecoderVincitaTomb;
 import serverencoder.ServerEncoderClassifica;
 import serverencoder.ServerEncoderLogin;
@@ -471,29 +475,48 @@ public class SimpleThread extends Thread {
 					PartitaRubamazzo.Partite.get(idpartita).setSituazione(DistribuzioneCarte.maziere(idpartita));
 
 					dainviare=ServerEncoderPartecipanti.partecipanti(idpartita);
-				
+
 					writer.write(dainviare);
 					writer.flush();
 
-					
-					stringa = reader.readLine(); 
-					System.out.println("Ricevuta stringa: "+stringa);
 
-					if(stringa.equalsIgnoreCase("AGGIORNAMENTO")){
-						
-						dainviare=ServerEncoderRubamazzo.recapcarte(PartitaRubamazzo.Partite.get(idpartita).getSituazione(), utente.getNomeUtente(), idpartita);
-						
+					while(PartitaRubamazzo.Partite.get(idpartita).getMazzo().size()==0){
+
+						stringa = reader.readLine(); 
+						System.out.println("Ricevuta stringa: "+stringa);
+
+						st = new StringTokenizer(stringa, "#");
+
+						if(st.nextToken().equalsIgnoreCase("AGGIORNAMENTO")){
+
+							dainviare=ServerEncoderRubamazzo.recapcarte(PartitaRubamazzo.Partite.get(idpartita).getSituazione(), utente.getNomeUtente(), idpartita);
+
+						}
+
+						if(st.nextToken().equalsIgnoreCase("RUBAMAZZO")){
+
+							Carta cartagiocata=ServerDecoderRubamazzo.decoderruba(stringa);
+
+							PartitaRubamazzo.Partite.get(idpartita).setSituazione(ControllaMossa.controlla(PartitaRubamazzo.Partite.get(idpartita).getSituazione(), cartagiocata, utente.getNomeUtente(), idpartita));
+
+							PescaCarta.pescacarta(idpartita, utente.getNomeUtente());
+
+							dainviare=ServerEncoderRubamazzo.recapcarte(PartitaRubamazzo.Partite.get(idpartita).getSituazione(), utente.getNomeUtente(), idpartita);
+
+						}
+
+						writer.write(dainviare);
+						writer.flush();
+
+
 					}
 					
 					
-					
-					
-					
-					
-					
-					
-					
-					
+
+
+
+
+
 				}else{
 					dainviare=ServerEncoderNoCrediti.nocrediti(UpdaterDB.prendipunti(utente));
 				}
