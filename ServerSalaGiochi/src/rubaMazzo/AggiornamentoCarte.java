@@ -4,22 +4,22 @@ import java.util.ArrayList;
 
 public class AggiornamentoCarte {
 
-	 public ArrayList<Carta> Carteinmano1=new ArrayList<Carta>();
-	 ArrayList<Carta> Carteinmano2=new ArrayList<Carta>();
-	 ArrayList<Carta> Carteinmano3=new ArrayList<Carta>();
-	 ArrayList<Carta> Carteinmano4=new ArrayList<Carta>();
-	 ArrayList<Carta> Carteinbanco=new ArrayList<Carta>();
-	 Carta Cartaincima1;
-	Carta Cartaincima2;
-	 Carta Cartaincima3;
-	 Carta Cartaincima4;
-	 Integer Numerocarte1;
-	Integer Numerocarte2;
-	 Integer Numerocarte3;
-	 Integer Numerocarte4;
-	
+	public ArrayList<Carta> Carteinmano1=new ArrayList<Carta>();
+	public ArrayList<Carta> Carteinmano2=new ArrayList<Carta>();
+	public ArrayList<Carta> Carteinmano3=new ArrayList<Carta>();
+	public ArrayList<Carta> Carteinmano4=new ArrayList<Carta>();
+	public ArrayList<Carta> Carteinbanco=new ArrayList<Carta>();
+	public Carta Cartaincima1;
+	public Carta Cartaincima2;
+	public Carta Cartaincima3;
+	public Carta Cartaincima4;
+	public Integer Numerocarte1;
+	public Integer Numerocarte2;
+	public Integer Numerocarte3;
+	public Integer Numerocarte4;
+
 	public AggiornamentoCarte(ArrayList<Carta> carteinmano1, ArrayList<Carta> carteinmano2, ArrayList<Carta> carteinmano3, ArrayList<Carta> carteinmano4, ArrayList<Carta> carteinbanco, Carta cartaincima1, Carta cartaincima2, Carta cartaincima3, Carta cartaincima4, Integer numerocarte1, Integer numerocarte2, Integer numerocarte3, Integer numerocarte4){
-		
+
 		this.Carteinmano1=carteinmano1;
 		this.Carteinmano2=carteinmano2;
 		this.Carteinmano3=carteinmano3;

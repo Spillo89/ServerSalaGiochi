@@ -16,6 +16,8 @@ import costruttore.SlotMachine;
 import costruttore.Utente;
 import costruttore.UtenteLogin;
 
+import rubaMazzo.ComposizioneMazzo;
+import rubaMazzo.DistribuzioneCarte;
 import rubaMazzo.PartitaRubamazzo;
 import serverdecoder.ServerDecoderLogin;
 import serverdecoder.ServerDecoderNSchede;
@@ -25,7 +27,9 @@ import serverencoder.ServerEncoderClassifica;
 import serverencoder.ServerEncoderLogin;
 import serverencoder.ServerEncoderNEstratto;
 import serverencoder.ServerEncoderNoCrediti;
+import serverencoder.ServerEncoderPartecipanti;
 import serverencoder.ServerEncoderRegistrazione;
+import serverencoder.ServerEncoderRubamazzo;
 import serverencoder.ServerEncoderSchedeTombola;
 import serverencoder.ServerEncoderSlot;
 import serverencoder.ServerEncoderVincitaTombola;
@@ -107,46 +111,46 @@ public class SimpleThread extends Thread {
 
 				switch(parolachiave){
 				case"LOGINOK": 
-					
+
 					//prendo tutti i dati dal DB
-					
+
 					utentelogin.setPosizione(UpdaterDB.posizioneClassifica(utente));
 					utentelogin.setNome(UpdaterDB.prendinomi(utente));
 					utentelogin.setCognome(UpdaterDB.prendicognomi(utente));
 					utentelogin.setCrediti(UpdaterDB.prendipunti(utente));
 					utentelogin.setUltimoLogin(UpdaterDB.prendiultimologin(utente));
-					
+
 					dainviare=ServerEncoderLogin.login(utentelogin);
-					
+
 					writer.write(dainviare);
 					writer.flush(); 
 
 				case"LOGINKO":
-					
+
 					dainviare="KO#le credenziali inserite non sono corrette\n";
-					
+
 					writer.write(dainviare);
 					writer.flush(); 
-				
+
 				case"REGISTRAZIONEOK":
-					
+
 					//salvo i dari che mi servono in utetnelogin dal DB
-					
+
 					utentelogin.setPosizione(UpdaterDB.posizioneClassifica(utente));
 					utentelogin.setNome(UpdaterDB.prendinomi(utente));
 					utentelogin.setCognome(UpdaterDB.prendicognomi(utente));
 					utentelogin.setCrediti(UpdaterDB.prendipunti(utente));
-					
-					
+
+
 					dainviare=ServerEncoderRegistrazione.registrazione(utentelogin);
-					
+
 					writer.write(dainviare);
 					writer.flush(); 
-					
+
 				case"REGISTRAZIONEKO":
-					
+
 					dainviare="KO#il nomeutente è già presente o le credenziali non sono complete\n";
-					
+
 					writer.write(dainviare);
 					writer.flush();
 				}
@@ -451,7 +455,7 @@ public class SimpleThread extends Thread {
 						}
 					}
 					ServerDecoderVincitaTomb.VincitaTombola=null;
-					
+
 					partitatombola.cancellapartitafinita(utente.getNomeUtente());
 
 				}else{
@@ -459,24 +463,59 @@ public class SimpleThread extends Thread {
 				}
 
 			case "RUBAMAZZO":
+				if(UpdaterDB.prendipunti(utente)>200){
+					Integer idpartita=partitarubamazzo.partitarubamazzo(utente.getNomeUtente());
+
+					PartitaRubamazzo.Partite.get(idpartita).setMazzo(ComposizioneMazzo.componi());
+
+					PartitaRubamazzo.Partite.get(idpartita).setSituazione(DistribuzioneCarte.maziere(idpartita));
+
+					dainviare=ServerEncoderPartecipanti.partecipanti(idpartita);
+				
+					writer.write(dainviare);
+					writer.flush();
+
+					
+					stringa = reader.readLine(); 
+					System.out.println("Ricevuta stringa: "+stringa);
+
+					if(stringa.equalsIgnoreCase("AGGIORNAMENTO")){
+						
+						dainviare=ServerEncoderRubamazzo.recapcarte(PartitaRubamazzo.Partite.get(idpartita).getSituazione(), utente.getNomeUtente(), idpartita);
+						
+					}
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				}else{
+					dainviare=ServerEncoderNoCrediti.nocrediti(UpdaterDB.prendipunti(utente));
+				}
+
 
 			case "CLASSIFICAGLOBALE":
-				
+
 				ArrayList<String> nomiclassifica=UpdaterDB.classificaGlobale();
 				ArrayList<Integer> punticlassifica=UpdaterDB.classificaGlobalePunti();
-				
+
 				dainviare=ServerEncoderClassifica.classifica(nomiclassifica, punticlassifica);
-				
+
 				writer.write(dainviare);
 				writer.flush();
 
 			case "CLASSIFICAGIORNALIERA":
-				
+
 				nomiclassifica=UpdaterDB.classificaGlobaleGiorn();
 				punticlassifica=UpdaterDB.classificaGlobalePuntiGiorn();
 
 				dainviare=ServerEncoderClassifica.classifica(nomiclassifica, punticlassifica);
-				
+
 				writer.write(dainviare);
 				writer.flush();
 			}

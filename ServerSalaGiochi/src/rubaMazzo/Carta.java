@@ -9,9 +9,9 @@ public class Carta {
 	static final char DENARI	= 'D';
 	
 	Integer Val;
-	char Seme;
+	String Seme;
 	
-	public Carta (Integer v, char s){
+	public Carta (Integer v, String s){
 		Val = v;
 		Seme = s;
 	}
@@ -24,12 +24,12 @@ public class Carta {
 		Val = val;
 	}
 
-	public char getSeme() {
+	public String getSeme() {
 		return Seme;
 	}
 
-	public void setSeme(char seme) {
-		Seme = seme;
+	public void setSeme(String string) {
+		Seme = string;
 	}
 
 	public boolean cartaUguale (Carta c){
