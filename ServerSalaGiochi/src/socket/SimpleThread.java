@@ -16,6 +16,7 @@ import costruttore.SlotMachine;
 import costruttore.Utente;
 import costruttore.UtenteLogin;
 
+import rubaMazzo.CalcolaVincitore;
 import rubaMazzo.Carta;
 import rubaMazzo.ComposizioneMazzo;
 import rubaMazzo.ControllaMossa;
@@ -27,6 +28,7 @@ import serverdecoder.ServerDecoderNSchede;
 import serverdecoder.ServerDecoderRegistrazione;
 import serverdecoder.ServerDecoderRubamazzo;
 import serverdecoder.ServerDecoderVincitaTomb;
+import serverencoder.ServerEncoderClassRuba;
 import serverencoder.ServerEncoderClassifica;
 import serverencoder.ServerEncoderLogin;
 import serverencoder.ServerEncoderNEstratto;
@@ -510,12 +512,42 @@ public class SimpleThread extends Thread {
 
 
 					}
+
+					while(PartitaRubamazzo.Partite.get(idpartita).getSituazione().Carteinmano1.size()>0||PartitaRubamazzo.Partite.get(idpartita).getSituazione().Carteinmano2.size()>0||PartitaRubamazzo.Partite.get(idpartita).getSituazione().Carteinmano3.size()>0||PartitaRubamazzo.Partite.get(idpartita).getSituazione().Carteinmano4.size()>0){
+						stringa = reader.readLine(); 
+						System.out.println("Ricevuta stringa: "+stringa);
+
+
+						st = new StringTokenizer(stringa, "#");
+
+						if(st.nextToken().equalsIgnoreCase("AGGIORNAMENTO")){
+
+							dainviare=ServerEncoderRubamazzo.recapcarte(PartitaRubamazzo.Partite.get(idpartita).getSituazione(), utente.getNomeUtente(), idpartita);
+
+						}
+
+						if(st.nextToken().equalsIgnoreCase("RUBAMAZZO")){
+
+							Carta cartagiocata=ServerDecoderRubamazzo.decoderruba(stringa);
+
+							PartitaRubamazzo.Partite.get(idpartita).setSituazione(ControllaMossa.controlla(PartitaRubamazzo.Partite.get(idpartita).getSituazione(), cartagiocata, utente.getNomeUtente(), idpartita));
+
+							dainviare=ServerEncoderRubamazzo.recapcarte(PartitaRubamazzo.Partite.get(idpartita).getSituazione(), utente.getNomeUtente(), idpartita);
+
+						}
+
+						writer.write(dainviare);
+						writer.flush();
+
+					}
 					
+					ArrayList<String> classificaruba=CalcolaVincitore.calcola(idpartita);
 					
-
-
-
-
+					dainviare=ServerEncoderClassRuba.classruba(classificaruba, utente, idpartita);
+					
+					writer.write(dainviare);
+					writer.flush();
+					
 
 				}else{
 					dainviare=ServerEncoderNoCrediti.nocrediti(UpdaterDB.prendipunti(utente));
