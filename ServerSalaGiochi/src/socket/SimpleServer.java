@@ -11,7 +11,7 @@ public class SimpleServer {
  //Porta del socket 
 	private static final int port = 4445; 
  
-	public static void connettiti() throws IOException, SQLException, InterruptedException { 
+	public void connettiti() throws IOException, SQLException, InterruptedException { 
 //Dichiaro le variabili per il ServerSocket e il Socket 
 		ServerSocket serverSocket = null; 
 		Socket clientSocket = null; 

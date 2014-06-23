@@ -43,40 +43,70 @@ public class UpdaterDB {
 	public static UtenteLogin cercaUtentePsw(Utente utente) throws SQLException{
 
 		UtenteLogin utentelogin= new UtenteLogin();
+		ResultSet rs=null;
 
-	//	dbc = ConnessioneDB.getIstance();
+		//	dbc = ConnessioneDB.getIstance();
 		System.out.println("comincio la ricerca dell'utente");
 		System.out.println("nome utente: "+utente.getNomeUtente());
 		PreparedStatement ps =  ConnessioneDB.conn.prepareStatement(StatementDB.takeClient);
 		ps.setString(1, utente.getNomeUtente());
+		ps.setString(2, utente.getPsw());
 		System.out.println("nome utente: "+utente.getNomeUtente());
 		//ps.setString(2, utente.getPsw());
-		
+
 		try {
 			System.out.println("eseguo la query ceh mi restituirà tutti i dati");
-			ResultSet rs = ps.executeQuery(StatementDB.takeClient);
-			if(rs!=null){
-				while(rs.next()){
-					if(rs.getString("utente")!=null && rs.getString("psw")!=null){
-						utentelogin.setNome(rs.getString("nome"));
-						System.out.println("nome: "+rs.getString("nome"));
-						utentelogin.setCognome(rs.getString("cognome"));
-						System.out.println("cognome: "+rs.getString("cognome"));
-						utentelogin.setCrediti(Integer.parseInt(rs.getString("punti")));
-						System.out.println("punti: "+rs.getString("punti"));
-						utentelogin.setPosizione(posizioneClassifica(utente));
-						utentelogin.setUltimoLogin(rs.getString("ultimo_login"));
 
-					}
+			rs = ps.executeQuery();
 
-				}
+			System.out.println("ho dichiarato rs");
+
+			while(rs.next()){
+				System.out.println("sono nel while di carcautentepsw");
+
+				String stnome=rs.getString("utente");
+
+				System.out.println("stnome= "+stnome);
+
+				String stpsw=rs.getString("psw");
+
+				System.out.println("stpsw= "+stpsw);
+
+				//if(stnome!=null && stpsw!=null){
+
+				System.out.println("sono nell'if di carcautentepsw");
+
+				utentelogin.setNome(rs.getString("nome"));
+
+				System.out.println("nome: "+rs.getString("nome"));
+
+				utentelogin.setCognome(rs.getString("cognome"));
+
+				System.out.println("cognome: "+rs.getString("cognome"));
+
+				utentelogin.setCrediti(Integer.parseInt(rs.getString("punti")));
+
+				System.out.println("punti: "+rs.getString("punti"));
+
+				utentelogin.setPosizione(posizioneClassifica(utente));
+
+				System.out.println("posizione= "+utentelogin.getPosizione());
+
+				utentelogin.setUltimoLogin(rs.getString("ultimo_login"));
+
+				System.out.println("data= "+utentelogin.getUltimoLogin());
+
+				//}
+
 			}
 
+			System.out.println("sono fuori dal while");
 
 		}catch (SQLException e) {
 			System.out.println("errore");
 			e.printStackTrace();
 		}
+		System.out.println("sto returnando");
 		return utentelogin;
 	}
 
@@ -85,7 +115,7 @@ public class UpdaterDB {
 
 	public static void aggiungiUtente(Registrazione utente) throws SQLException{
 
-	//	dbc = ConnessioneDB.getIstance();
+		//	dbc = ConnessioneDB.getIstance();
 		System.out.println("sono dentro al aggiungiUtente");
 		PreparedStatement ps= ConnessioneDB.conn.prepareStatement(StatementDB.insertClient);
 		ps.setString(1, utente.getNomeUtente());
@@ -106,7 +136,7 @@ public class UpdaterDB {
 
 		Integer punti=puntidaaggiungere+puntispesi;
 
-	//	dbc = ConnessioneDB.getIstance();
+		//	dbc = ConnessioneDB.getIstance();
 		PreparedStatement ps =  ConnessioneDB.conn.prepareStatement(StatementDB.AggiornaPunti);
 		ps.setInt(1, punti);
 		ps.setString(2, utente.getNomeUtente());
@@ -123,7 +153,7 @@ public class UpdaterDB {
 	public static Integer prendipunti(Utente utente) throws SQLException{
 
 		Integer puntitotali=null;
-	//	dbc = ConnessioneDB.getIstance();
+		//	dbc = ConnessioneDB.getIstance();
 		PreparedStatement ps =  ConnessioneDB.conn.prepareStatement(StatementDB.CercaUtente);
 		ps.setString(1, utente.getNomeUtente());
 		try {
@@ -147,7 +177,7 @@ public class UpdaterDB {
 
 	public static void ordinaClassifica() throws SQLException{
 
-	//	dbc = ConnessioneDB.getIstance();
+		//	dbc = ConnessioneDB.getIstance();
 		PreparedStatement ps =  ConnessioneDB.conn.prepareStatement(StatementDB.classifica);
 
 		System.out.println("eseguo la query di ordinamento classifica");
@@ -160,7 +190,7 @@ public class UpdaterDB {
 
 	public static Integer posizioneClassifica(Utente utente) throws SQLException{
 
-	//	dbc = ConnessioneDB.getIstance();
+		//	dbc = ConnessioneDB.getIstance();
 		String nomeacaso=null;
 		Integer i=0;
 
@@ -174,12 +204,12 @@ public class UpdaterDB {
 		System.out.println("eseguita");
 		System.out.println("nome utente nella posizioneclassifica: "+ utente.getNomeUtente());
 		rs.next();
-		// cazzata
+
 		do{
 			nomeacaso=rs.getString("utente");
 			i++;
 		}while(!nomeacaso.equalsIgnoreCase(utente.getNomeUtente())&& rs.next());
-		
+
 		return i;
 
 	}
@@ -188,7 +218,7 @@ public class UpdaterDB {
 	public static String prendinomi(Utente utente) throws SQLException{
 
 		String nomi=null;
-	//	dbc = ConnessioneDB.getIstance();
+		//	dbc = ConnessioneDB.getIstance();
 		PreparedStatement ps =  ConnessioneDB.conn.prepareStatement(StatementDB.CercaUtente);
 		ps.setString(1, utente.getNomeUtente());
 		try {
@@ -211,7 +241,7 @@ public class UpdaterDB {
 	public static String prendicognomi(Utente utente) throws SQLException{
 
 		String cognomi=null;
-//		dbc = ConnessioneDB.getIstance();
+		//		dbc = ConnessioneDB.getIstance();
 		PreparedStatement ps =  ConnessioneDB.conn.prepareStatement(StatementDB.CercaUtente);
 		ps.setString(1, utente.getNomeUtente());
 		try {
@@ -235,14 +265,15 @@ public class UpdaterDB {
 	public static String prendiultimologin(Utente utente) throws SQLException{
 
 		String login=null;
-	//	dbc = ConnessioneDB.getIstance();
+		//	dbc = ConnessioneDB.getIstance();
 		PreparedStatement ps =  ConnessioneDB.conn.prepareStatement(StatementDB.CercaUtente);
 		ps.setString(1, utente.getNomeUtente());
+
 		try {
 			System.out.println("eseguo la query di ricerca");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
-				login=rs.getString("ultimologin");
+				login=rs.getString("ultimo_login");
 			}
 
 
@@ -259,7 +290,7 @@ public class UpdaterDB {
 
 		ArrayList<String> classifica = new ArrayList<String>();
 
-	//	dbc = ConnessioneDB.getIstance();
+		//	dbc = ConnessioneDB.getIstance();
 
 		Integer i=0;
 
@@ -288,7 +319,7 @@ public class UpdaterDB {
 
 		ArrayList<Integer> classifica = new ArrayList<Integer>();
 
-	//	dbc = ConnessioneDB.getIstance();
+		//	dbc = ConnessioneDB.getIstance();
 
 		Integer i=0;
 
@@ -312,7 +343,7 @@ public class UpdaterDB {
 
 	public static void ordinaClassificaGiorn() throws SQLException{
 
-	//	dbc = ConnessioneDB.getIstance();
+		//	dbc = ConnessioneDB.getIstance();
 		PreparedStatement ps =  ConnessioneDB.conn.prepareStatement(StatementDB.classifica);
 
 		System.out.println("eseguo la query di ordinamento classifica");
@@ -325,7 +356,7 @@ public class UpdaterDB {
 
 		ArrayList<String> classifica = new ArrayList<String>();
 
-	//	dbc = ConnessioneDB.getIstance();
+		//	dbc = ConnessioneDB.getIstance();
 
 		Integer i=0;
 

@@ -79,7 +79,8 @@ public class SimpleThread extends Thread {
 				stringa = reader.readLine(); 
 				System.out.println("Ricevuta stringa: "+stringa);
 				if(stringa.equalsIgnoreCase("exit")){
-					try { reader.close(); } catch (IOException e) {e.printStackTrace();} 
+					try { reader.close(); } catch (IOException e) {e.printStackTrace();}
+					System.out.println("entro in exit");
 					writer.close(); 
 					if(!clientSocket.isClosed()){ 
 						try {clientSocket.close(); } catch (IOException e) {e.printStackTrace();} 
@@ -91,11 +92,13 @@ public class SimpleThread extends Thread {
 				case "LOGIN": 
 					utente=ServerDecoderLogin.decoderlogin(stringa);
 					parolachiave="LOGIN";
+					break;
 				case "REGISTRAZIONE": 
 					System.out.println("sono nel case della registrazione");
 					utenteregistrazione=ServerDecoderRegistrazione.decoderregistrazione(stringa);
 					System.out.println("sono uscito dal server decoder registrazione");
 					parolachiave="REGISTRAZIONE";
+					break;
 				}
 				Boolean esiste=null;
 				
@@ -114,7 +117,7 @@ public class SimpleThread extends Thread {
 					}
 					break;
 				case"LOGIN":
-					System.out.println("a caso entro nel login");
+					System.out.println("sono nel caso login");
 					utentelogin=UpdaterDB.cercaUtentePsw(utente);
 					if(utentelogin!=null){
 						parolachiave="LOGINOK";
@@ -131,6 +134,8 @@ public class SimpleThread extends Thread {
 				case"LOGINOK": 
 
 					//prendo tutti i dati dal DB
+					
+					System.out.println("sono in LOGINOK");
 
 					utentelogin.setPosizione(UpdaterDB.posizioneClassifica(utente));
 					utentelogin.setNome(UpdaterDB.prendinomi(utente));
@@ -139,7 +144,9 @@ public class SimpleThread extends Thread {
 					utentelogin.setUltimoLogin(UpdaterDB.prendiultimologin(utente));
 
 					dainviare=ServerEncoderLogin.login(utentelogin);
-
+					
+					System.out.println("sto per inviare: "+dainviare);
+					
 					writer.write(dainviare);
 					writer.flush(); 
 					break;
@@ -191,14 +198,18 @@ public class SimpleThread extends Thread {
 			//comincio la scelta del gioco o della classifica da giocare o da visualizzare
 
 
-
-
-			stringa = reader.readLine(); 
+			stringa = reader.readLine();
+			
+			
 			System.out.println("Ricevuta stringa: "+stringa);
-
+			
 
 			StringTokenizer st = new StringTokenizer(stringa, "#");
-			switch(st.nextToken()){
+			
+			String controllo=st.nextToken();
+			
+			
+			switch(controllo){
 			case "SLOT":
 				if(UpdaterDB.prendipunti(utente)>10){
 					combinazioneslot=Slot.calcolaCombinazione();

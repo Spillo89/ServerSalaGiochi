@@ -3,9 +3,7 @@ package mainserver;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import rubaMazzo.PartitaRubamazzo;
 import socket.SimpleServer;
-import tombola.PartitaTombola;
 import interfacciaDB.ConnessioneDB;
 
 public class MainServer {
