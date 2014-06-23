@@ -24,6 +24,7 @@ public class UpdaterDB {
 			while(rs.next()){
 				if( rs.getString("utente")!=null){
 					esiste=true;
+					System.out.println("HO TROVATO L'UTENTE");
 				};
 			}
 
@@ -38,15 +39,18 @@ public class UpdaterDB {
 
 
 	//cerca se esiste un utente e se la psw è corretta
-	@SuppressWarnings("null")
 	public static UtenteLogin cercaUtentePsw(Utente utente) throws SQLException{
 
-		UtenteLogin utentelogin=null;
+		UtenteLogin utentelogin= new UtenteLogin();
 
 	//	dbc = ConnessioneDB.getIstance();
+		System.out.println("comincio la ricerca dell'utente");
+		System.out.println("nome utente: "+utente.getNomeUtente());
 		PreparedStatement ps =  ConnessioneDB.conn.prepareStatement(StatementDB.takeClient);
 		ps.setString(1, utente.getNomeUtente());
-		ps.setString(2, utente.getPsw());
+		System.out.println("nome utente: "+utente.getNomeUtente());
+		//ps.setString(2, utente.getPsw());
+		
 		try {
 			System.out.println("eseguo la query ceh mi restituirà tutti i dati");
 			ResultSet rs = ps.executeQuery(StatementDB.takeClient);
@@ -54,8 +58,11 @@ public class UpdaterDB {
 				while(rs.next()){
 					if(rs.getString("utente")!=null && rs.getString("psw")!=null){
 						utentelogin.setNome(rs.getString("nome"));
+						System.out.println("nome: "+rs.getString("nome"));
 						utentelogin.setCognome(rs.getString("cognome"));
+						System.out.println("cognome: "+rs.getString("cognome"));
 						utentelogin.setCrediti(Integer.parseInt(rs.getString("punti")));
+						System.out.println("punti: "+rs.getString("punti"));
 						utentelogin.setPosizione(posizioneClassifica(utente));
 						utentelogin.setUltimoLogin(rs.getString("ultimo_login"));
 

@@ -10,7 +10,7 @@ public class StatementDB {
 			"VALUES ( ?, ?, ?, ?,80 )";
 	
 	// recupero TUTTI I DATI di un utente dal database
-	static String takeClient = "SELECT * FROM clienti WHERE utente = ? AND psw = ?";
+	static String takeClient = "SELECT nome , cognome , punti , ultimo_login FROM clienti WHERE utente = ? ";
 	
 	//recupero nome utente e psw
 	
