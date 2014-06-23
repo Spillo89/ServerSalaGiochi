@@ -1,8 +1,5 @@
 package interfacciaDB;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -81,13 +78,16 @@ public class UpdaterDB {
 	public static void aggiungiUtente(Registrazione utente) throws SQLException{
 
 	//	dbc = ConnessioneDB.getIstance();
-
+		System.out.println("sono dentro al aggiungiUtente");
 		PreparedStatement ps= ConnessioneDB.conn.prepareStatement(StatementDB.insertClient);
 		ps.setString(1, utente.getNomeUtente());
+		System.out.println("nome utente: "+ utente.getNomeUtente());
 		ps.setString(2, utente.getPsw());
+		System.out.println("psw: "+ utente.getPsw());
 		ps.setString(3, utente.getNome());
+		System.out.println("nome: "+ utente.getNome());
 		ps.setString(4, utente.getCognome());
-
+		System.out.println("cognome: "+ utente.getCognome());
 		ps.executeUpdate();
 
 	}

@@ -103,11 +103,13 @@ public class SimpleThread extends Thread {
 				case"REGISTRAZIONE":
 					System.out.println("sono nello switch di registrazione, cerco l'utente");
 					esiste=UpdaterDB.cercaUtente(utenteregistrazione);
-					System.out.println("ho cercato l'utente" +esiste);
+					System.out.println("ho cercato l'utente " +esiste);
 					if(esiste==true){
 						parolachiave="REGISTRAZIONEKO";
 					}else{
+						System.out.println("inizio la registrazione");
 						UpdaterDB.aggiungiUtente(utenteregistrazione);
+						
 						parolachiave="REGISTRAZIONEOK";				
 					}
 				case"LOGIN":
