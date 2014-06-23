@@ -59,8 +59,8 @@ public class UpdaterDB {
 						utentelogin.setNome(rs.getString("nome"));
 						utentelogin.setCognome(rs.getString("cognome"));
 						utentelogin.setCrediti(Integer.parseInt(rs.getString("punti")));
-						utentelogin.setPosizione(Integer.parseInt(rs.getString("posizione")));
-						utentelogin.setUltimoLogin(rs.getString("ultimoaccesso"));
+						utentelogin.setPosizione(posizioneClassifica(utente));
+						utentelogin.setUltimoLogin(rs.getString("ultimo_login"));
 
 					}
 
