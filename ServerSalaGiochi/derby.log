@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Mon Jun 23 11:14:10 CEST 2014:
+Avvio della versione di Derby The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): istanza a816c00e-0146-c801-0a68-000005e5a3e8
+sulla directory di database C:\Users\Spillo\git\ServerSalaGiochi\ServerSalaGiochi\salagiochi con caricatore classi sun.misc.Launcher$AppClassLoader@73d16e93 
+Caricato da file:/C:/Users/Spillo/Downloads/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0-b132
+user.dir=C:\Users\Spillo\git\ServerSalaGiochi\ServerSalaGiochi
+os.name=Windows 7
+os.arch=amd64
+os.version=6.1
+derby.system.home=null
+Programma di caricamento classe database avviato - derby.database.classpath=''

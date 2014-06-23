@@ -86,18 +86,24 @@ public class SimpleThread extends Thread {
 					} 
 				}
 				StringTokenizer st = new StringTokenizer(stringa, "#");
+				System.out.println("st= "+ st);
 				switch(st.nextToken()){
 				case "LOGIN": 
 					utente=ServerDecoderLogin.decoderlogin(stringa);
 					parolachiave="LOGIN";
 				case "REGISTRAZIONE": 
+					System.out.println("sono nel case della registrazione");
 					utenteregistrazione=ServerDecoderRegistrazione.decoderregistrazione(stringa);
+					System.out.println("sono uscito dal server decoder registrazione");
 					parolachiave="REGISTRAZIONE";
 				}
 				Boolean esiste=null;
+				
 				switch(parolachiave){
 				case"REGISTRAZIONE":
+					System.out.println("sono nello switch di registrazione, cerco l'utente");
 					esiste=UpdaterDB.cercaUtente(utenteregistrazione);
+					System.out.println("ho cercato l'utente" +esiste);
 					if(esiste==true){
 						parolachiave="REGISTRAZIONEKO";
 					}else{

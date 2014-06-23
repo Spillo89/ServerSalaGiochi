@@ -1,5 +1,8 @@
 package mainserver;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import rubaMazzo.PartitaRubamazzo;
 import socket.SimpleServer;
 import tombola.PartitaTombola;
@@ -9,22 +12,27 @@ public class MainServer {
 
 	/**
 	 * @param args
+	 * @throws InterruptedException 
+	 * @throws SQLException 
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, SQLException, InterruptedException {
 		// TODO Auto-generated method stub
-		
+		System.out.println("fin qui ci arrivo");
 		
 		
 		// apro la connessione al DB
-		ConnessioneDB connessioneDB = new ConnessioneDB();
+		ConnessioneDB.dbc = new ConnessioneDB();
 		
+		System.out.println("connessione fatta");
 		//faccio partire il socket
 		
 		SimpleServer connessioneSocket = new SimpleServer();
-		
+		connessioneSocket.connettiti();
+		System.out.println("connessione soket fatta");
 		//chiudo la connessione al DB
 		
-		connessioneDB.closeDB();
+		// connessioneDB.closeDB();
 	}
 
 }

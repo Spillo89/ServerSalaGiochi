@@ -22,9 +22,11 @@ public class SimpleServer {
 		PartitaRubamazzo partitarubamazzo = new PartitaRubamazzo();
 		
 		
-		
+		System.out.println("sono all'inizio del simple");
 		try { 
+			System.out.println("entro try del simple server");
 			serverSocket = new ServerSocket(port); //Inizializzo il socket 
+			System.out.println("inizializzo soket simple server");
 			while(true){ 
 				 clientSocket = serverSocket.accept(); 
 				 SimpleThread thread = new SimpleThread(clientSocket, partitatombola, partitarubamazzo);
