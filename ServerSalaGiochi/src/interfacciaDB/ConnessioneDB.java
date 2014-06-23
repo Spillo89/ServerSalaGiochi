@@ -7,7 +7,7 @@ public class ConnessioneDB {
 	/**
 	 * @param args
 	 */
-	private static Connection conn = null;
+	static Connection conn = null;
 	public static ConnessioneDB  dbc = null;
 	private String DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
 	private String URL = "jdbc:derby:salagiochi; create=true";

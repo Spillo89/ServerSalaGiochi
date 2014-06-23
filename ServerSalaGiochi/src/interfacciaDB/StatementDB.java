@@ -14,7 +14,7 @@ public class StatementDB {
 	
 	//recupero nome utente e psw
 	
-	static String CercaUtente = "SELECT utente AND psw FROM clienti WHERE utente = ?";
+	static String CercaUtente = "SELECT utente , psw FROM clienti WHERE utente = ?";
 
 	//aggiorna i punti di un giocatore
 	
