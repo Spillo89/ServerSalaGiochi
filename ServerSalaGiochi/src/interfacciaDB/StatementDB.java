@@ -14,7 +14,7 @@ public class StatementDB {
 	
 	//recupero nome utente e psw
 	
-	static String CercaUtente = "SELECT utente , psw FROM clienti WHERE utente = ?";
+	static String CercaUtente = "SELECT * FROM clienti WHERE utente = ?";
 
 	//aggiorna i punti di un giocatore
 	
@@ -51,7 +51,7 @@ public class StatementDB {
 			"WHERE utente = ? ";
 	
 	// classifica punteggi
-	static String classifica ="SELECT utente, punti FROM clienti" +
+	static String classifica ="SELECT utente, punti FROM clienti " +
 			"ORDER BY punti DESC ";
 	
 	// classifica punteggi

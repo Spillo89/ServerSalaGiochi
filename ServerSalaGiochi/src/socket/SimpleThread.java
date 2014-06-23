@@ -57,9 +57,9 @@ public class SimpleThread extends Thread {
 		String dainviare=null;
 		String stringa=null;
 		Registrazione utenteregistrazione=null;
-		Utente utente=null;
+		Utente utente= new Utente(null,null);
 		SlotMachine combinazioneslot=null;
-		UtenteLogin utentelogin=null;
+		UtenteLogin utentelogin=new UtenteLogin();
 		Integer credititotali=null;
 		Integer creditivinti=null;
 		Integer creditispesi=null;
@@ -112,7 +112,9 @@ public class SimpleThread extends Thread {
 						
 						parolachiave="REGISTRAZIONEOK";				
 					}
+					break;
 				case"LOGIN":
+					System.out.println("a caso entro nel login");
 					utentelogin=UpdaterDB.cercaUtentePsw(utente);
 					if(utentelogin!=null){
 						parolachiave="LOGINOK";
@@ -120,7 +122,9 @@ public class SimpleThread extends Thread {
 						parolachiave="LOGINKO";
 						//aggiornare la data dell'ultimo login
 					}
+				break;
 				}
+				
 				//controllare in caso di login se l'utente esiste nel db(se si imposto parolachiave="LOGINOK" in caso contrario imposto parolachiave="LOGINKO"), controllare in caso di registrazione se il nome utente è già presente nel db e se sono presenti tuti i dati richiesti se no aggiungere tutto(in caso che sia tutto giusto parolachiave="REGISTRAZIONEOK" altrimenti parolachiave="REGISTRAZIONEKO")
 
 				switch(parolachiave){
@@ -149,12 +153,19 @@ public class SimpleThread extends Thread {
 				case"REGISTRAZIONEOK":
 
 					//salvo i dari che mi servono in utetnelogin dal DB
-
+					System.out.println("sono in registrazione OK");
+					utente.setNomeUtente(utenteregistrazione.getNomeUtente());
+					System.out.println("ho fatto get nome");
+					utente.setPsw(utenteregistrazione.getPsw());
+					System.out.println("ho fatto get psw");
 					utentelogin.setPosizione(UpdaterDB.posizioneClassifica(utente));
+					System.out.println("ho fatto get posizione classifica");
 					utentelogin.setNome(UpdaterDB.prendinomi(utente));
+					System.out.println("ho fatto prendinomi");
 					utentelogin.setCognome(UpdaterDB.prendicognomi(utente));
+					System.out.println("ho fatto prendicognomi");
 					utentelogin.setCrediti(UpdaterDB.prendipunti(utente));
-
+					System.out.println("ho fatto prendipunti");
 
 					dainviare=ServerEncoderRegistrazione.registrazione(utentelogin);
 
