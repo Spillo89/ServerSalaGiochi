@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ComuneSalaGiochi"/>
-	<classpathentry kind="lib" path="C:/Users/Spillo/Downloads/derby.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Spillo/Downloads/derbyLocale_it.jar"/>
+	<classpathentry kind="lib" path="C:/Users/MangoKid/git/ServerSalaGiochi/ServerSalaGiochi/derby.jar"/>
+	<classpathentry kind="lib" path="C:/Users/MangoKid/git/ServerSalaGiochi/ServerSalaGiochi/derbyLocale_it.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

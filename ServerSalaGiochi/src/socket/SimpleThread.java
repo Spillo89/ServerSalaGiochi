@@ -91,13 +91,11 @@ public class SimpleThread extends Thread {
 				case "LOGIN": 
 					utente=ServerDecoderLogin.decoderlogin(stringa);
 					parolachiave="LOGIN";
-					break;
 				case "REGISTRAZIONE": 
 					System.out.println("sono nel case della registrazione");
 					utenteregistrazione=ServerDecoderRegistrazione.decoderregistrazione(stringa);
 					System.out.println("sono uscito dal server decoder registrazione");
 					parolachiave="REGISTRAZIONE";
-					break;
 				}
 				Boolean esiste=null;
 				
@@ -215,7 +213,7 @@ public class SimpleThread extends Thread {
 					UpdaterDB.aggiornapunti(utente, 0, creditispesi);
 					dainviare=ServerEncoderNoCrediti.nocrediti(UpdaterDB.prendipunti(utente));
 				}
-				break;
+			break;
 			case "TOMBOLA":
 				if(UpdaterDB.prendipunti(utente)>100){
 					creditispesi=ServerDecoderNSchede.NumeroSchede*20;
@@ -334,16 +332,12 @@ public class SimpleThread extends Thread {
 											case "QUATERNA":
 												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un quaterna\n";
 												break;
-
 											case "CINQUINA":
 												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un cinquina\n";
 												break;
-												
-
 											case "TOMBOLA":
 												dainviare="KO#la vincita chiamata è troppo bassa, c'è già stato un tombola\n";
 												break;
-
 											default: 
 												PartitaTombola.Partite.get(i).setVincitaChiamata(ServerDecoderVincitaTomb.VincitaTombola);
 
@@ -435,7 +429,6 @@ public class SimpleThread extends Thread {
 
 
 											}
-											break;
 										case"TOMBOLA":
 											switch(PartitaTombola.Partite.get(i).getVincitaChiamata()){
 											case "AMBO":

@@ -17,11 +17,12 @@ public class UpdaterDB {
 		//dbc = ConnessioneDB.getIstance();
 		System.out.println("ho fatto l'istanza al db");
 		PreparedStatement ps = ConnessioneDB.conn.prepareStatement(StatementDB.CercaUtente);
+		System.out.println("nome utente: " +  utente.getNomeUtente());
 		ps.setString(1, utente.getNomeUtente());
 		try {
 			System.out.println("eseguo la query di ricerca");
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()){
+			while(rs.next()==true){
 				if( rs.getString("utente")!=null){
 					esiste=true;
 					System.out.println("HO TROVATO L'UTENTE");
@@ -111,7 +112,7 @@ public class UpdaterDB {
 		ps.setString(2, utente.getNomeUtente());
 
 		System.out.println("eseguo la query di aggiornamento punti");
-		ps.executeQuery(StatementDB.AggiornaPunti);
+		ps.executeQuery();
 
 
 	}
@@ -127,7 +128,7 @@ public class UpdaterDB {
 		ps.setString(1, utente.getNomeUtente());
 		try {
 			System.out.println("eseguo la query di ricerca");
-			ResultSet rs = ps.executeQuery(StatementDB.CercaUtente);
+			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				puntitotali=rs.getInt("punti");
 			}
@@ -151,7 +152,7 @@ public class UpdaterDB {
 
 		System.out.println("eseguo la query di ordinamento classifica");
 
-		ps.executeQuery(StatementDB.classifica);
+		ps.executeQuery();
 
 	}
 
@@ -160,21 +161,25 @@ public class UpdaterDB {
 	public static Integer posizioneClassifica(Utente utente) throws SQLException{
 
 	//	dbc = ConnessioneDB.getIstance();
-
+		String nomeacaso=null;
 		Integer i=0;
 
 		ResultSet rs=null;
-
+		System.out.println("sto per ordinare la classifica");
 		ordinaClassifica();
-
+		System.out.println("ho ordinato la classifica");
 		PreparedStatement ps =  ConnessioneDB.conn.prepareStatement(StatementDB.tuttoclassifica);
+		System.out.println("sto per eseguire la query");
+		rs = ps.executeQuery();
+		System.out.println("eseguita");
+		System.out.println("nome utente nella posizioneclassifica: "+ utente.getNomeUtente());
+		rs.next();
+		// cazzata
 		do{
-			rs = ps.executeQuery(StatementDB.tuttoclassifica);
-
+			nomeacaso=rs.getString("utente");
 			i++;
-
-		}while(rs.getString("utente").equalsIgnoreCase(utente.getNomeUtente())&& rs.next());
-
+		}while(!nomeacaso.equalsIgnoreCase(utente.getNomeUtente())&& rs.next());
+		
 		return i;
 
 	}
@@ -188,7 +193,7 @@ public class UpdaterDB {
 		ps.setString(1, utente.getNomeUtente());
 		try {
 			System.out.println("eseguo la query di ricerca");
-			ResultSet rs = ps.executeQuery(StatementDB.CercaUtente);
+			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				nomi=rs.getString("nome");
 			}
@@ -211,7 +216,7 @@ public class UpdaterDB {
 		ps.setString(1, utente.getNomeUtente());
 		try {
 			System.out.println("eseguo la query di ricerca");
-			ResultSet rs = ps.executeQuery(StatementDB.CercaUtente);
+			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				cognomi=rs.getString("cognome");
 			}
@@ -235,7 +240,7 @@ public class UpdaterDB {
 		ps.setString(1, utente.getNomeUtente());
 		try {
 			System.out.println("eseguo la query di ricerca");
-			ResultSet rs = ps.executeQuery(StatementDB.CercaUtente);
+			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				login=rs.getString("ultimologin");
 			}
@@ -264,7 +269,7 @@ public class UpdaterDB {
 
 		PreparedStatement ps =  ConnessioneDB.conn.prepareStatement(StatementDB.tuttoclassifica);
 
-		rs = ps.executeQuery(StatementDB.tuttoclassifica);
+		rs = ps.executeQuery();
 
 		while(rs.next()||i<10){
 
@@ -293,7 +298,7 @@ public class UpdaterDB {
 
 		PreparedStatement ps =  ConnessioneDB.conn.prepareStatement(StatementDB.tuttoclassifica);
 
-		rs = ps.executeQuery(StatementDB.tuttoclassifica);
+		rs = ps.executeQuery();
 
 		while(rs.next()||i<10){
 
@@ -312,7 +317,7 @@ public class UpdaterDB {
 
 		System.out.println("eseguo la query di ordinamento classifica");
 
-		ps.executeQuery(StatementDB.classifica);
+		ps.executeQuery();
 
 	}
 
@@ -330,7 +335,7 @@ public class UpdaterDB {
 
 		PreparedStatement ps =  ConnessioneDB.conn.prepareStatement(StatementDB.tuttoclassificagiorn);
 
-		rs = ps.executeQuery(StatementDB.tuttoclassificagiorn);
+		rs = ps.executeQuery();
 
 		while(rs.next()||i<10){
 
@@ -356,7 +361,7 @@ public class UpdaterDB {
 
 		PreparedStatement ps =  ConnessioneDB.conn.prepareStatement(StatementDB.tuttoclassificagiorn);
 
-		rs = ps.executeQuery(StatementDB.tuttoclassificagiorn);
+		rs = ps.executeQuery();
 
 		while(rs.next()||i<10){
 
